@@ -53,6 +53,23 @@ public class Ambiente
         return null;
     }
 
+    public String getSaidasString(){
+        String saidas = "";
+        if(saidaNorte != null){
+            saidas += "norte ";
+        }
+        if(saidaSul != null){
+            saidas += "sul ";
+        }
+        if(saidaLeste != null){
+            saidas += "leste ";
+        }
+        if(saidaOeste != null){
+            saidas += "oeste ";
+        }
+        return saidas;
+    }
+
     /**
      * Define as saidas do ambiente. Cada direcao ou leva a um
      * outro ambiente ou eh null (nenhuma saida para la).

@@ -161,18 +161,7 @@ public class Jogo
         System.out.println("Voce esta " + ambienteAtual.getDescricao());
     
         System.out.print("Saidas: ");
-        if(ambienteAtual.saidaNorte != null) {
-            System.out.print("norte ");
-        }
-        if(ambienteAtual.saidaLeste != null) {
-            System.out.print("leste ");
-        }
-        if(ambienteAtual.saidaSul != null) {
-            System.out.print("sul ");
-        }
-        if(ambienteAtual.saidaOeste != null) {
-            System.out.print("oeste ");
-        }
+        System.out.println(ambienteAtual.getSaidasString());
         System.out.println();
     }
 
