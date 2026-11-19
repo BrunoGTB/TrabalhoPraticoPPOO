@@ -17,11 +17,11 @@ package project;
  */
 public class Ambiente 
 {
-    public String descricao;
-    public Ambiente saidaNorte;
-    public Ambiente saidaSul;
-    public Ambiente saidaLeste;
-    public Ambiente saidaOeste;
+    private String descricao;
+    private Ambiente saidaNorte;
+    private Ambiente saidaSul;
+    private Ambiente saidaLeste;
+    private Ambiente saidaOeste;
 
     /**
      * Cria um ambiente com a "descricao" passada. Inicialmente, ele
@@ -35,6 +35,22 @@ public class Ambiente
     public Ambiente(String descricao) 
     {
         this.descricao = descricao;
+    }
+
+    public Ambiente getSaida(String direcao){
+        if(direcao.equals("norte")){
+            return saidaNorte;
+        }
+        if(direcao.equals("leste")){
+            return saidaLeste;
+        }
+        if(direcao.equals("oeste")){
+            return saidaOeste;
+        }
+        if(direcao.equals("sul")){
+            return saidaSul;
+        }
+        return null;
     }
 
     /**

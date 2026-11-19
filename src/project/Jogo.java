@@ -145,19 +145,7 @@ public class Jogo
         String direcao = comando.getSegundaPalavra();
 
         // Tenta sair do ambiente atual
-        Ambiente proximoAmbiente = null;
-        if(direcao.equals("norte")) {
-            proximoAmbiente = ambienteAtual.saidaNorte;
-        }
-        if(direcao.equals("leste")) {
-            proximoAmbiente = ambienteAtual.saidaLeste;
-        }
-        if(direcao.equals("sul")) {
-            proximoAmbiente = ambienteAtual.saidaSul;
-        }
-        if(direcao.equals("oeste")) {
-            proximoAmbiente = ambienteAtual.saidaOeste;
-        }
+        Ambiente proximoAmbiente = ambienteAtual.getSaida(direcao);
 
         if (proximoAmbiente == null) {
             System.out.println("Nao ha passagem!");
