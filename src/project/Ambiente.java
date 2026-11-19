@@ -43,17 +43,8 @@ public class Ambiente
 
     public String getSaidasString(){
         String saidasDisponiveis = "";
-        if(saidas.get("norte") != null){
-            saidasDisponiveis += "norte ";
-        }
-        if(saidas.get("sul") != null){
-            saidasDisponiveis += "sul ";
-        }
-        if(saidas.get("leste") != null){
-            saidasDisponiveis += "leste ";
-        }
-        if(saidas.get("oeste") != null){
-            saidasDisponiveis += "oeste ";
+        for(String direcao : saidas.keySet()){
+            saidasDisponiveis += direcao + " ";
         }
         return saidasDisponiveis;
     }
