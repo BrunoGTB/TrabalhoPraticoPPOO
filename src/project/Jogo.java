@@ -112,6 +112,8 @@ public class Jogo
         }
         else if (palavraDeComando.equals("sair")) {
             querSair = sair(comando);
+        }else if( palavraDeComando.equals("olhar")){
+            olhar();
         }
 
         return querSair;
@@ -130,7 +132,7 @@ public class Jogo
         System.out.println("pela universidade.");
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
-        System.out.println("   ir sair ajuda");
+        analisador.mostrarComandos();
     }
 
     /** 
@@ -162,6 +164,10 @@ public class Jogo
 
     private void imprimirLocalizacao(){
         ambienteAtual.getDescricaoLonga();
+    }
+
+    private void olhar(){
+        System.out.println(ambienteAtual.getDescricaoLonga());
     }
 
     /** 

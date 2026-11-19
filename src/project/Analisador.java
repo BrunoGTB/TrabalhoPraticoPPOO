@@ -64,4 +64,8 @@ public class Analisador
             return new Comando(null, palavra2); 
         }
     }
+
+    public void mostrarComandos(){
+        palavrasDeComando.mostrarComandos();
+    }
 }
