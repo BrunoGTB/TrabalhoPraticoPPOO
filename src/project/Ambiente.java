@@ -42,7 +42,7 @@ public class Ambiente
     }
 
     public String getSaidasString(){
-        String saidasDisponiveis = "";
+        String saidasDisponiveis = "Saídas: ";
         for(String direcao : saidas.keySet()){
             saidasDisponiveis += direcao + " ";
         }
@@ -68,6 +68,10 @@ public class Ambiente
     public String getDescricao()
     {
         return descricao;
+    }
+
+    public String getDescricaoLonga(){
+        return "Você está " + descricao + "\n" + getSaidasString() + "\n";
     }
 
 }

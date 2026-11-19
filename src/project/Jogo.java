@@ -161,11 +161,7 @@ public class Jogo
     }
 
     private void imprimirLocalizacao(){
-        System.out.println("Voce esta " + ambienteAtual.getDescricao());
-    
-        System.out.print("Saidas: ");
-        System.out.println(ambienteAtual.getSaidasString());
-        System.out.println();
+        ambienteAtual.getDescricaoLonga();
     }
 
     /** 
