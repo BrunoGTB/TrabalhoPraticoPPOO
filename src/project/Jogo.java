@@ -82,23 +82,8 @@ public class Jogo
         System.out.println("World of Zuul eh um novo jogo de aventura, incrivelmente chato.");
         System.out.println("Digite 'ajuda' se voce precisar de ajuda.");
         System.out.println();
-        
-        System.out.println("Voce esta " + ambienteAtual.getDescricao());
-    
-        System.out.print("Saidas: ");
-        if(ambienteAtual.saidaNorte != null) {
-            System.out.print("norte ");
-        }
-        if(ambienteAtual.saidaLeste != null) {
-            System.out.print("leste ");
-        }
-        if(ambienteAtual.saidaSul != null) {
-            System.out.print("sul ");
-        }
-        if(ambienteAtual.saidaOeste != null) {
-            System.out.print("oeste ");
-        }
-        System.out.println();
+
+        imprimirLocalizacao();
     }
 
     /**
@@ -180,23 +165,27 @@ public class Jogo
         else {
             ambienteAtual = proximoAmbiente;
             
-            System.out.println("Voce esta " + ambienteAtual.getDescricao());
-            
-            System.out.print("Saidas: ");
-            if(ambienteAtual.saidaNorte != null) {
-                System.out.print("norte ");
-            }
-            if(ambienteAtual.saidaLeste != null) {
-                System.out.print("leste ");
-            }
-            if(ambienteAtual.saidaSul != null) {
-                System.out.print("sul ");
-            }
-            if(ambienteAtual.saidaOeste != null) {
-                System.out.print("oeste ");
-            }
-            System.out.println();
+            imprimirLocalizacao();
         }
+    }
+
+    private void imprimirLocalizacao(){
+        System.out.println("Voce esta " + ambienteAtual.getDescricao());
+    
+        System.out.print("Saidas: ");
+        if(ambienteAtual.saidaNorte != null) {
+            System.out.print("norte ");
+        }
+        if(ambienteAtual.saidaLeste != null) {
+            System.out.print("leste ");
+        }
+        if(ambienteAtual.saidaSul != null) {
+            System.out.print("sul ");
+        }
+        if(ambienteAtual.saidaOeste != null) {
+            System.out.print("oeste ");
+        }
+        System.out.println();
     }
 
     /** 
