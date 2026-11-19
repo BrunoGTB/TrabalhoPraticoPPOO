@@ -45,11 +45,14 @@ public class Jogo
         escritorio = new Ambiente("na sala de administracao dos computadores");
         
         // inicializa as saidas dos ambientes
-        fora.ajustarSaidas(null, anfiteatro, laboratorio, cantina);
-        anfiteatro.ajustarSaidas(null, null, null, fora);
-        cantina.ajustarSaidas(null, fora, null, null);
-        laboratorio.ajustarSaidas(fora, escritorio, null, null);
-        escritorio.ajustarSaidas(null, null, null, laboratorio);
+        fora.ajustarSaida("leste", anfiteatro);
+        fora.ajustarSaida("sul", laboratorio);
+        fora.ajustarSaida("oeste", cantina);
+        anfiteatro.ajustarSaida("oeste", fora);
+        cantina.ajustarSaida("leste", fora);
+        laboratorio.ajustarSaida("norte", fora);
+        laboratorio.ajustarSaida("leste", escritorio);
+        escritorio.ajustarSaida("oeste", laboratorio);
 
         ambienteAtual = fora;  // o jogo comeca do lado de fora
     }

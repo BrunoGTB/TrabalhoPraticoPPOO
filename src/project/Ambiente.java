@@ -1,5 +1,7 @@
 package project;
 
+import java.util.HashMap;
+
 /**
  * Classe Ambiente - um ambiente em um jogo adventure.
  *
@@ -18,10 +20,7 @@ package project;
 public class Ambiente 
 {
     private String descricao;
-    private Ambiente saidaNorte;
-    private Ambiente saidaSul;
-    private Ambiente saidaLeste;
-    private Ambiente saidaOeste;
+    private HashMap<String, Ambiente> saidas;
 
     /**
      * Cria um ambiente com a "descricao" passada. Inicialmente, ele
@@ -35,39 +34,28 @@ public class Ambiente
     public Ambiente(String descricao) 
     {
         this.descricao = descricao;
+        saidas = new HashMap<>();
     }
 
     public Ambiente getSaida(String direcao){
-        if(direcao.equals("norte")){
-            return saidaNorte;
-        }
-        if(direcao.equals("leste")){
-            return saidaLeste;
-        }
-        if(direcao.equals("oeste")){
-            return saidaOeste;
-        }
-        if(direcao.equals("sul")){
-            return saidaSul;
-        }
-        return null;
+        return saidas.get(direcao);
     }
 
     public String getSaidasString(){
-        String saidas = "";
-        if(saidaNorte != null){
-            saidas += "norte ";
+        String saidasDisponiveis = "";
+        if(saidas.get("norte") != null){
+            saidasDisponiveis += "norte ";
         }
-        if(saidaSul != null){
-            saidas += "sul ";
+        if(saidas.get("sul") != null){
+            saidasDisponiveis += "sul ";
         }
-        if(saidaLeste != null){
-            saidas += "leste ";
+        if(saidas.get("leste") != null){
+            saidasDisponiveis += "leste ";
         }
-        if(saidaOeste != null){
-            saidas += "oeste ";
+        if(saidas.get("oeste") != null){
+            saidasDisponiveis += "oeste ";
         }
-        return saidas;
+        return saidasDisponiveis;
     }
 
     /**
@@ -78,16 +66,9 @@ public class Ambiente
      * @param sul A saida sul.
      * @param oeste A saida oeste.
      */
-    public void ajustarSaidas(Ambiente norte, Ambiente leste, Ambiente sul, Ambiente oeste) 
+    public void ajustarSaida(String direcao, Ambiente destino) 
     {
-        if(norte != null)
-            saidaNorte = norte;
-        if(leste != null)
-            saidaLeste = leste;
-        if(sul != null)
-            saidaSul = sul;
-        if(oeste != null)
-            saidaOeste = oeste;
+        saidas.put(direcao, destino);
     }
 
     /**
