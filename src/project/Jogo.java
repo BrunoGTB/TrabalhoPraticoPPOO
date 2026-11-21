@@ -163,7 +163,7 @@ public class Jogo
     }
 
     private void imprimirLocalizacao(){
-        ambienteAtual.getDescricaoLonga();
+        System.out.println(ambienteAtual.getDescricaoLonga());
     }
 
     private void olhar(){
