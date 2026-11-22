@@ -9,13 +9,14 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class HeuristicaAEstrela {
+public class HeuristicaAEstrela implements BuscaCaminho {
     private Mapa mapa;
 
     public HeuristicaAEstrela(Mapa mapa) {
         this.mapa = mapa;
     }
 
+    @Override 
     public List<Posicao> encontrarCaminho(
             Posicao origem,
             Posicao destino) {
