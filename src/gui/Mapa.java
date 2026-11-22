@@ -1,14 +1,16 @@
 package gui;
+
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Representa um mapa com todos os itens que participam da simulacao
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
+
 public class Mapa {
-    private Jogador[][] jogador;
-    private Parede[][] parede;
-    private Letra[][] letreiro;
+    private final List<Desenhavel> itens = new ArrayList<Desenhavel>();
     private int largura;
     private int altura;
     
@@ -23,9 +25,6 @@ public class Mapa {
     public Mapa(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
-        jogador = new Jogador[largura][altura];
-        parede = new Parede[largura][altura];
-        letreiro = new Letra[largura][altura];
         adicionarParede();
         adicionarLetreiro();
     }
@@ -69,7 +68,7 @@ public class Mapa {
         char[] letras = {'Q', 'U', 'A', 'R', 'T', 'O', '1','Q', 'U', 'A', 'R', 'T', 'O', '2','W','C','1','W','C','2','S','A','L','A','J', 'A', 'N', 'T', 'A', 'R', 'C', 'O', 'Z', 'I', 'N', 'H', 'A', 'S', 'A', 'L', 'A','T','V','A','R','E','A','S','E','R','V','I','Ç','O','C', 'O', 'R', 'R', 'E', 'D', 'O', 'R'};
 
         for (int i = 0; i < posicoes.length; i++) {
-            letreiro[posicoes[i].getX()][posicoes[i].getY()] = new Letra(posicoes[i], letras[i]);
+            adicionarItem(new Letra(posicoes[i], letras[i]));;
         }
     }
 
@@ -132,7 +131,7 @@ public class Mapa {
         };
 
         for (Posicao posicao : posicoes2) {
-            parede[posicao.getX()][posicao.getY()] = new Parede(posicao);
+            adicionarItem(new Parede(posicao));
         }
     }
     /**
@@ -142,26 +141,18 @@ public class Mapa {
         this(LARGURA_PADRAO,ALTURA_PADRAO);
     }
     
-    public void adicionarItem(Jogador j){
-        jogador[j.getPosicaoOrigem().getX()][j.getPosicaoOrigem().getY()] = j;
+    public void adicionarItem(Desenhavel d){
+        itens.add(d);
     }
     
-    public void removerItem(Jogador j){
-        jogador[j.getPosicaoOrigem().getX()][j.getPosicaoOrigem().getY()] = null;
+    public void removerItem(Desenhavel d){
+        itens.remove(d);
+    }
+
+    public List<Desenhavel> getDesenhaveis() {
+        return Collections.unmodifiableList(itens);
     }
     
-    public Jogador getJogador(int x, int y){
-        return jogador[x][y];
-    }
-
-    public Parede getParede(int x, int y){
-        return parede[x][y];
-    }
-
-    public Letra getLetra(int x, int y){
-        return letreiro[x][y];
-    }
-
     public int getLargura() {
         return largura;
     }
@@ -171,12 +162,19 @@ public class Mapa {
     }
 
     public boolean podePassar(int x, int y) {
-        return estaDentro(x, y) && !temParede(x, y);
+        return estaDentro(x, y) && !bloqueado(x, y);
     }
 
-    private boolean temParede(int x, int y) {
-        return parede[x][y] != null;
+    private boolean bloqueado(int x, int y) {
+        for (Desenhavel d : itens) {
+            Posicao p = d.getPosicaoOrigem();
+            if(d.bloqueiaPassagem() && p.getX() == x && p.getY() == y){
+                return true;
+            }
+        }
+        return false;
     }
+
     public boolean estaDentro(int x, int y) {
         return x >= 0 && x < largura
             && y >= 0 && y < altura;

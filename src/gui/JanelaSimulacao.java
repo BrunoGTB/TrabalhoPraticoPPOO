@@ -19,28 +19,19 @@ public class JanelaSimulacao extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
+
     /**
      * Mostra o estado atual do mapa.
      */
     public void executarAcao(){
         visaoMapa.preparePaint();
-        for(int i = 0; i < mapa.getLargura(); i++){
-            for(int j = 0; j < mapa.getAltura(); j++){
-                if(mapa.getJogador(i, j) != null){//Se existir algum objeto na posicao (i,j)
-                    Jogador jogador = mapa.getJogador(i, j);
-                    Posicao localizacao = jogador.getPosicaoOrigem();
-                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), jogador.getImagem());
-                }else if(mapa.getParede(i, j) != null){//Se existir algum objeto na posicao (i,j)
-                    Parede parede = mapa.getParede(i, j);
-                    Posicao localizacao = parede.getPosicaoOrigem();
-                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), parede.getImagem());
-                }else if(mapa.getLetra(i, j) != null){//Se existir algum objeto na posicao (i,j)
-                    Letra letra = mapa.getLetra(i, j);
-                    Posicao localizacao = letra.getPosicaoOrigem();
-                    visaoMapa.desenharImagem(localizacao.getX(), localizacao.getY(), letra.getImagem());
-                }
-            }
+        /**  
+            O jogador é removido e re-adicionado a cada passo, então fica no fim
+            da lista e é desenhado por cima de paredes e letras.
+        **/
+        for (Desenhavel d : mapa.getDesenhaveis()){
+            Posicao p = d.getPosicaoOrigem();
+            visaoMapa.desenharImagem(p.getX(), p.getY(), d.getImagem());
         }
         visaoMapa.repaint();
     }
