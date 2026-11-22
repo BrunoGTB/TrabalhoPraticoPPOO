@@ -5,16 +5,16 @@ import java.util.List;
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class Simulacao {
-    private Jogador jogador;
-    private JanelaSimulacao janelaSimulacao;
-    private Mapa mapa;
+    private final Jogador jogador;
+    private final JanelaSimulacao janelaSimulacao;
+    private final Mapa mapa;
+    private final BuscaCaminho buscaCaminho;
     
-    public Simulacao(){ 
-        mapa = new Mapa();
-        new ConstrutorMapa(mapa).montarMapa();
-        System.out.println("Itens no mapa: " + mapa.getDesenhaveis().size());
-        jogador = new Jogador();//Cria jogador
-        janelaSimulacao = new JanelaSimulacao(mapa);
+    public Simulacao(Mapa mapa, Jogador jogador, BuscaCaminho buscaCaminho) { 
+        this.mapa = mapa;
+        this.jogador = jogador;
+        this.buscaCaminho = buscaCaminho;
+        this.janelaSimulacao = new JanelaSimulacao(mapa);
     }
     
     public void executarSimulacao(Posicao origem, Posicao destino){
@@ -22,7 +22,7 @@ public class Simulacao {
         jogador.setPosicaoDestino(destino);//Define a posicao destino do jogador
         mapa.adicionarItem(jogador);//Inicializando o mapa com o jogador
         janelaSimulacao.executarAcao();
-        List<Posicao> caminho = mapa.encontrarCaminho(jogador.getPosicaoOrigem(), jogador.getPosicaoDestino());
+        List<Posicao> caminho = buscaCaminho.encontrarCaminho(jogador.getPosicaoOrigem(), jogador.getPosicaoDestino());
         if (!caminho.isEmpty()) {
             for (Posicao posicao : caminho) {
                 executarUmPasso(posicao);

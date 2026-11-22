@@ -17,8 +17,9 @@ public class Principal {
         referencias.put("Sala de TV", new Posicao(4, 14));
         referencias.put("Área de Serviço", new Posicao(16, 14));
         referencias.put("Corredor", new Posicao(9, 6));
-        Simulacao sim = new Simulacao();
-        
+        Mapa mapa = new Mapa();
+        new ConstrutorMapa(mapa).montarMapa();
+        Simulacao sim = new Simulacao(mapa, new Jogador(), new HeuristicaAEstrela(mapa));
         
         for(String origem: referencias.keySet()){
             for(String destino: referencias.keySet()){

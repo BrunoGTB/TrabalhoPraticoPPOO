@@ -72,18 +72,4 @@ public class Mapa {
         return x >= 0 && x < largura
             && y >= 0 && y < altura;
     }
-
-    public List<Posicao> encontrarCaminho(
-            Posicao origem,
-            Posicao destino) {
-
-        HeuristicaAEstrela heuristica =
-            new HeuristicaAEstrela(this);
-
-        return heuristica.encontrarCaminho(
-            origem,
-            destino
-        );
-    }
-    
 }
