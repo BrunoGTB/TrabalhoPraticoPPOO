@@ -72,6 +72,11 @@ public class Posicao {
             return x == outro.x && y == outro.y;
         }
     }
+
+    @Override 
+    public int hashCode() {
+        return 31 * x + y;
+    }
     
     /**
      * @return A representacao da localizacao.
