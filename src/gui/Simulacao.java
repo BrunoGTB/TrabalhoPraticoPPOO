@@ -21,9 +21,9 @@ public class Simulacao {
         mapa.adicionarItem(jogador);//Inicializando o mapa com o jogador
         janelaSimulacao.executarAcao();
         List<Posicao> caminho = mapa.encontrarCaminho(jogador.getPosicaoOrigem(), jogador.getPosicaoDestino());
-        if (caminho != null) {
-            for (int i = 0; i < caminho.size(); i++) {
-                executarUmPasso(caminho.get(i));
+        if (!caminho.isEmpty()) {
+            for (Posicao posicao : caminho) {
+                executarUmPasso(posicao);
                 esperar(100);
             }
             mapa.removerItem(jogador);
