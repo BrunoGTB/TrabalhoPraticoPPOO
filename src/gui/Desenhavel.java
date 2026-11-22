@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.*;
+import javax.swing.ImageIcon;
 
 public abstract class Desenhavel {
     // ATRIBUTOS:
@@ -28,5 +29,10 @@ public abstract class Desenhavel {
 
     protected void setPosicaoOrigem(Posicao localizacao){
         posicaoOrigem = localizacao;
+    }
+
+    // Elimina duplicação no carregamento de imagens.
+    public static Image carregarImagem(String caminho){
+        return new ImageIcon(Desenhavel.class.getResource(caminho)).getImage();
     }
 }

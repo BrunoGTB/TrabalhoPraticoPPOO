@@ -1,7 +1,5 @@
 package gui;
 
-import javax.swing.ImageIcon;
-
 /**
  * Representa o jogador
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
@@ -11,13 +9,13 @@ public class Jogador extends Desenhavel{
     private Posicao posicaoDestino;
 
     public Jogador(){
-        super(new ImageIcon(Jogador.class.getResource("/Imagens/pessoa.png")).getImage());
+        super(carregarImagem("/Imagens/pessoa.png"));
     }
     
     public Jogador(Posicao localizacao) {
         super(
             localizacao, 
-            new ImageIcon(Jogador.class.getResource("/Imagens/pessoa.png")).getImage()
+            carregarImagem("/Imagens/pessoa.png")
         );
         posicaoDestino = null;
     }
