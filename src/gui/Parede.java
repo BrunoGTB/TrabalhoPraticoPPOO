@@ -13,4 +13,10 @@ public class Parede extends Desenhavel{
             carregarImagem("/Imagens/tijolo.png")
         );
     }
+
+    // MÉTODO:
+    @Override
+    public boolean bloqueiaPassagem() {
+        return true;
+    }
 }

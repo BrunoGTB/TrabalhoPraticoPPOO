@@ -31,6 +31,15 @@ public abstract class Desenhavel {
         posicaoOrigem = localizacao;
     }
 
+    /*
+        - No código Original o mapa descobria se podia passar com parede[x][y] != null
+        - O método que criamos abaixo já faz com que qualquer Desenhavel responda se pode passar ou não
+        - Por padrão não bloqueia; Parede sobrescreve.
+    */
+    public boolean bloqueiaPassagem() {
+        return false;
+    }
+
     // Elimina duplicação no carregamento de imagens.
     public static Image carregarImagem(String caminho){
         return new ImageIcon(Desenhavel.class.getResource(caminho)).getImage();
