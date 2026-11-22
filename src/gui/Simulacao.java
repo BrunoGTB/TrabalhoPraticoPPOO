@@ -11,6 +11,8 @@ public class Simulacao {
     
     public Simulacao(){ 
         mapa = new Mapa();
+        new ConstrutorMapa(mapa).montarMapa();
+        System.out.println("Itens no mapa: " + mapa.getDesenhaveis().size());
         jogador = new Jogador();//Cria jogador
         janelaSimulacao = new JanelaSimulacao(mapa);
     }
