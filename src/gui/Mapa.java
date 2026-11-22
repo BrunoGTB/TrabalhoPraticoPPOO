@@ -132,7 +132,6 @@ public class Mapa {
         };
 
         for (Posicao posicao : posicoes2) {
-            System.out.println("Adicionando parede em: " + posicao.getX() + ", " + posicao.getY());
             parede[posicao.getX()][posicao.getY()] = new Parede(posicao);
         }
     }
@@ -149,11 +148,6 @@ public class Mapa {
     
     public void removerItem(Jogador j){
         jogador[j.getPosicaoOrigem().getX()][j.getPosicaoOrigem().getY()] = null;
-    }
-    
-    public void atualizarMapa(Jogador j){
-        removerItem(j);
-        adicionarItem(j);
     }
     
     public Jogador getJogador(int x, int y){
