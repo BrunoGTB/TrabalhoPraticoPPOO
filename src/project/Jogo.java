@@ -132,7 +132,7 @@ public class Jogo
         System.out.println("pela universidade.");
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
-        analisador.mostrarComandos();
+        System.out.println(analisador.mostrarComandos());
     }
 
     /** 

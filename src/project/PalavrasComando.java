@@ -40,10 +40,11 @@ public class PalavrasComando
         return false;
     }
 
-    public void mostrarComandos(){
+    public String mostrarComandos(){
+        String comandos = "";
         for(String comando : comandosValidos){
-            System.out.print(comando + " ");
+            comandos += comando + " ";
         }
-        System.out.println();
+        return comandos;
     }
 }

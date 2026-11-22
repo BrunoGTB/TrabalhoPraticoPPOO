@@ -65,7 +65,7 @@ public class Analisador
         }
     }
 
-    public void mostrarComandos(){
-        palavrasDeComando.mostrarComandos();
+    public String mostrarComandos(){
+        return palavrasDeComando.mostrarComandos();
     }
 }
