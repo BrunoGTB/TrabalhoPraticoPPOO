@@ -167,7 +167,7 @@ public class Jogo
     }
 
     private void olhar(){
-        System.out.println(ambienteAtual.getDescricaoLonga());
+        imprimirLocalizacao();
     }
 
     /** 
