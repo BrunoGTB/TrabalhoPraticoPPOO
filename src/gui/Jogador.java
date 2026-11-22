@@ -1,41 +1,33 @@
 package gui;
-import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 /**
  * Representa o jogador
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
-public class Jogador {
-    private Posicao posicaoOrigem;
+
+public class Jogador extends Desenhavel{
     private Posicao posicaoDestino;
-    private Image imagem;
 
     public Jogador(){
-        posicaoDestino = null;
-        imagem = new ImageIcon(getClass().getResource("/Imagens/pessoa.png")).getImage();
+        super(new ImageIcon(Jogador.class.getResource("/Imagens/pessoa.png")).getImage());
     }
     
     public Jogador(Posicao localizacao) {
-        this.posicaoOrigem = localizacao;
+        super(
+            localizacao, 
+            new ImageIcon(Jogador.class.getResource("/Imagens/pessoa.png")).getImage()
+        );
         posicaoDestino = null;
-        imagem = new ImageIcon(getClass().getResource("/Imagens/pessoa.png")).getImage();
-    }
-
-    public Posicao getPosicaoOrigem() {
-        return posicaoOrigem;
     }
 
     public Posicao getPosicaoDestino() {
         return posicaoDestino;
     }
-    
-    public Image getImagem(){
-        return imagem;
-    }
 
     public void setPosicaoOrigem(Posicao localizacaoAtual) {
-        this.posicaoOrigem = localizacaoAtual;
+        super.setPosicaoOrigem(localizacaoAtual);
     }
 
     public void setPosicaoDestino(Posicao localizacaoDestino) {

@@ -2,24 +2,14 @@ package gui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Letra {
-    private Posicao posicaoOrigem;
-    private Image imagem;
-
+public class Letra extends Desenhavel{
+    // CONSTRUTOR:
     public Letra(Posicao posicao, char letra) {
-        this.posicaoOrigem = posicao;
-        imagem = charParaImagem(letra);
+        super(posicao, charParaImagem(letra));
     }
 
-    public Posicao getPosicaoOrigem() {
-        return posicaoOrigem;
-    }
-
-    public Image getImagem(){
-        return imagem;
-    }
-
-    public Image charParaImagem(char c) {
+    // MÉTODO:
+    public static Image charParaImagem(char c) {
         int largura = 40;
         int altura = 40;
 
@@ -40,5 +30,4 @@ public class Letra {
 
         return imagem;
     }
-    
 }
