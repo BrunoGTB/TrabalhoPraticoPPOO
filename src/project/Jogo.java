@@ -5,19 +5,18 @@ import java.util.Random;
 public class Jogo 
 {
     private Analisador analisador;
-    private Ambiente ambienteAtual;
     private Random randomizer;
-    private int tentativas;
+    private Cacador cacador;
        
     public Jogo() 
     {
-        criarAmbientes();
         analisador = new Analisador();
         randomizer = new Random(); 
-        tentativas = randomizer.nextInt(21) + 10;
+        int tentativas = randomizer.nextInt(21) + 10;
+        cacador = new Cacador(criarAmbientes(), tentativas);
     }
 
-    private void criarAmbientes()
+    private Ambiente criarAmbientes()
     {
         Ambiente salaTv, areaServico, salaJantar, cozinha, corredor, wc1, wc2, quarto1, quarto2;
 
@@ -48,7 +47,7 @@ public class Jogo
         cozinha.ajustarSaida("Área de Serviço", areaServico);
         areaServico.ajustarSaida("Cozinha", cozinha);
 
-        ambienteAtual = salaTv;
+        return salaTv;
     }
 
     public void jogar() 
@@ -56,12 +55,12 @@ public class Jogo
         imprimirBoasVindas();
                 
         boolean terminado = false;
-        while (!terminado && tentativas != 0) {
+        while (!terminado && cacador.temTentativas()) {
             Comando comando = analisador.pegarComando();
             terminado = processarComando(comando);
         }
 
-        if(tentativas == 0){
+        if(!cacador.temTentativas()){
             System.out.println("Suas tentativas acabaram!");
         }
         System.out.println("Obrigado por jogar. Ate mais!");
@@ -73,7 +72,7 @@ public class Jogo
         System.out.print("Bem-vindo ao World of Zuul! ");
         System.out.println("Esse é um jogo de aventura em que você tem que achar o tesouro enterrado nesta casa mal-assombrada.");
         System.out.println("Digite 'ajuda' se voce precisar de ajuda.");
-        System.out.println("Você tem " + tentativas + " tentativas restantes.");
+        imprimirTentativas();
         System.out.println();
 
         imprimirLocalizacao();
@@ -111,7 +110,11 @@ public class Jogo
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
         System.out.println(analisador.mostrarComandos());
-        System.out.println("Você tem " + tentativas + " tentativas restantes.");
+        imprimirTentativas();
+    }
+
+    private void imprimirTentativas(){
+        System.out.println("Você tem " + cacador.getTentativas() + " tentativas restantes.");
     }
 
     private void irParaAmbiente(Comando comando) 
@@ -123,20 +126,20 @@ public class Jogo
 
         String direcao = comando.getSegundaPalavra();
 
-        Ambiente proximoAmbiente = ambienteAtual.getSaida(direcao);
+        Ambiente proximoAmbiente = cacador.getAmbienteAtual().getSaida(direcao);
 
         if (proximoAmbiente == null) {
             System.out.println("Nao ha passagem!");
         }
         else {
-            ambienteAtual = proximoAmbiente;
-            tentativas--;
+            cacador.moverPara(proximoAmbiente);
+            cacador.gastarTentativa();
             imprimirLocalizacao();
         }
     }
 
     private void imprimirLocalizacao(){
-        System.out.println(ambienteAtual.getDescricaoLonga());
+        System.out.println(cacador.getAmbienteAtual().getDescricaoLonga());
     }
 
     private void olhar(){
