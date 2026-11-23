@@ -6,48 +6,17 @@ public class Jogo
 {
     private Analisador analisador;
     private Random randomizer;
+    private Casa casa;
     private Cacador cacador;
        
     public Jogo() 
     {
         analisador = new Analisador();
         randomizer = new Random(); 
+        casa = new Casa();
+        casa.redefinirPortas(randomizer);
         int tentativas = randomizer.nextInt(21) + 10;
-        cacador = new Cacador(criarAmbientes(), tentativas);
-    }
-
-    private Ambiente criarAmbientes()
-    {
-        Ambiente salaTv, areaServico, salaJantar, cozinha, corredor, wc1, wc2, quarto1, quarto2;
-
-        salaTv      = new Ambiente("na Sala de TV");
-        areaServico = new Ambiente("na Área de Serviço");
-        salaJantar  = new Ambiente("na Sala de Jantar");
-        cozinha     = new Ambiente("na Cozinha");
-        corredor    = new Ambiente("no Corredor");
-        wc1         = new Ambiente("no WC 1");
-        wc2         = new Ambiente("no WC 2");
-        quarto1     = new Ambiente("no Quarto 1");
-        quarto2     = new Ambiente("no Quarto 2");
-
-        salaTv.ajustarSaida("Sala de Jantar", salaJantar);
-        salaJantar.ajustarSaida("Sala de TV", salaTv);
-        salaJantar.ajustarSaida("Corredor", corredor);
-        corredor.ajustarSaida("Sala de Jantar", salaJantar);
-        corredor.ajustarSaida("WC 1", wc1);
-        corredor.ajustarSaida("WC 2", wc2);
-        corredor.ajustarSaida("Quarto 1", quarto1);
-        corredor.ajustarSaida("Quarto 2", quarto2);
-        corredor.ajustarSaida("Cozinha", cozinha);
-        quarto1.ajustarSaida("Corredor", corredor);
-        quarto2.ajustarSaida("Corredor", corredor);
-        wc1.ajustarSaida("Corredor", corredor);
-        wc2.ajustarSaida("Corredor", corredor);
-        cozinha.ajustarSaida("Corredor", corredor);
-        cozinha.ajustarSaida("Área de Serviço", areaServico);
-        areaServico.ajustarSaida("Cozinha", cozinha);
-
-        return salaTv;
+        cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
     }
 
     public void jogar() 
@@ -124,18 +93,21 @@ public class Jogo
             return;
         }
 
-        String direcao = comando.getSegundaPalavra();
+        Ambiente atual = cacador.getAmbienteAtual();
+        Porta porta = atual.getPorta(comando.getSegundaPalavra());
 
-        Ambiente proximoAmbiente = cacador.getAmbienteAtual().getSaida(direcao);
-
-        if (proximoAmbiente == null) {
-            System.out.println("Nao ha passagem!");
+        if(porta == null){
+            System.out.println("Não há passagem!");
+            return;
         }
-        else {
-            cacador.moverPara(proximoAmbiente);
-            cacador.gastarTentativa();
+        cacador.gastarTentativa();
+        if(porta.estaEmperrada()){
+            System.out.println("A porta está emperrada!");
+        }else{
+            cacador.moverPara(porta.getOutroLado(atual));
             imprimirLocalizacao();
         }
+        casa.redefinirPortas(randomizer);
     }
 
     private void imprimirLocalizacao(){

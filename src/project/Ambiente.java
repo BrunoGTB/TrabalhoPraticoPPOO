@@ -3,17 +3,19 @@ import java.util.HashMap;
 
 public class Ambiente 
 {
+    private String nome;
     private String descricao;
-    private HashMap<String, Ambiente> saidas;
+    private HashMap<String, Porta> saidas;
 
-    public Ambiente(String descricao) 
+    public Ambiente(String nome, String descricao) 
     {
+        this.nome = nome;
         this.descricao = descricao;
         saidas = new HashMap<>();
     }
 
-    public Ambiente getSaida(String direcao){
-        return saidas.get(direcao);
+    public Porta getPorta(String nomeDestino){
+        return saidas.get(nomeDestino);
     }
 
     public String getSaidasString(){
@@ -24,14 +26,17 @@ public class Ambiente
         return saidasDisponiveis;
     }
 
-    public void ajustarSaida(String direcao, Ambiente destino) 
-    {
-        saidas.put(direcao, destino);
+    public void adicionarPorta(Porta porta){
+        saidas.put(porta.getOutroLado(this).getNome(), porta);
     }
 
     public String getDescricao()
     {
         return descricao;
+    }
+
+    public String getNome(){
+        return nome;
     }
 
     public String getDescricaoLonga(){
