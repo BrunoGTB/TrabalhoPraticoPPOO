@@ -35,7 +35,7 @@ public class Ambiente
     }
 
     public String getDescricaoLonga(){
-        return "Você está " + descricao + "\n" + getSaidasString() + "\n";
+        return "Você está " + descricao + " da casa mal-assombrada.\n" + getSaidasString() + "\n";
     }
 
 }

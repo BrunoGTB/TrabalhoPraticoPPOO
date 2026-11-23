@@ -26,7 +26,7 @@ public class Analisador
         if(tokenizer.hasNext()) {
             palavra1 = tokenizer.next();
             if(tokenizer.hasNext()) {
-                palavra2 = tokenizer.next();
+                palavra2 = tokenizer.nextLine().trim();
             }
         }
 

@@ -13,24 +13,36 @@ public class Jogo
 
     private void criarAmbientes()
     {
-        Ambiente fora, anfiteatro, cantina, laboratorio, escritorio;
+        Ambiente salaTv, areaServico, salaJantar, cozinha, corredor, wc1, wc2, quarto1, quarto2;
 
-        fora = new Ambiente("do lado de fora da entrada principal de uma universidade");
-        anfiteatro = new Ambiente("no anfiteatro");
-        cantina = new Ambiente("na cantina do campus");
-        laboratorio = new Ambiente("no laboratorio de computacao");
-        escritorio = new Ambiente("na sala de administracao dos computadores");
+        salaTv      = new Ambiente("na Sala de TV");
+        areaServico = new Ambiente("na Área de Serviço");
+        salaJantar  = new Ambiente("na Sala de Jantar");
+        cozinha     = new Ambiente("na Cozinha");
+        corredor    = new Ambiente("no Corredor");
+        wc1         = new Ambiente("no WC 1");
+        wc2         = new Ambiente("no WC 2");
+        quarto1     = new Ambiente("no Quarto 1");
+        quarto2     = new Ambiente("no Quarto 2");
 
-        fora.ajustarSaida("leste", anfiteatro);
-        fora.ajustarSaida("sul", laboratorio);
-        fora.ajustarSaida("oeste", cantina);
-        anfiteatro.ajustarSaida("oeste", fora);
-        cantina.ajustarSaida("leste", fora);
-        laboratorio.ajustarSaida("norte", fora);
-        laboratorio.ajustarSaida("leste", escritorio);
-        escritorio.ajustarSaida("oeste", laboratorio);
+        salaTv.ajustarSaida("Sala de Jantar", salaJantar);
+        salaJantar.ajustarSaida("Sala de TV", salaTv);
+        salaJantar.ajustarSaida("Corredor", corredor);
+        corredor.ajustarSaida("Sala de Jantar", salaJantar);
+        corredor.ajustarSaida("WC 1", wc1);
+        corredor.ajustarSaida("WC 2", wc2);
+        corredor.ajustarSaida("Quarto 1", quarto1);
+        corredor.ajustarSaida("Quarto 2", quarto2);
+        corredor.ajustarSaida("Cozinha", cozinha);
+        quarto1.ajustarSaida("Corredor", corredor);
+        quarto2.ajustarSaida("Corredor", corredor);
+        wc1.ajustarSaida("Corredor", corredor);
+        wc2.ajustarSaida("Corredor", corredor);
+        cozinha.ajustarSaida("Corredor", corredor);
+        cozinha.ajustarSaida("Área de Serviço", areaServico);
+        areaServico.ajustarSaida("Cozinha", cozinha);
 
-        ambienteAtual = fora;
+        ambienteAtual = salaTv;
     }
 
     public void jogar() 
@@ -48,8 +60,8 @@ public class Jogo
     private void imprimirBoasVindas()
     {
         System.out.println();
-        System.out.println("Bem-vindo ao World of Zuul!");
-        System.out.println("World of Zuul eh um novo jogo de aventura, incrivelmente chato.");
+        System.out.print("Bem-vindo ao World of Zuul! ");
+        System.out.println("Esse é um jogo de aventura em que você tem que achar o tesouro enterrado nesta casa mal-assombrada.");
         System.out.println("Digite 'ajuda' se voce precisar de ajuda.");
         System.out.println();
 
@@ -83,8 +95,8 @@ public class Jogo
 
     private void imprimirAjuda() 
     {
-        System.out.println("Voce esta perdido. Voce esta sozinho. Voce caminha");
-        System.out.println("pela universidade.");
+        System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que");
+        System.out.println("você o encontre! Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
         System.out.println(analisador.mostrarComandos());
