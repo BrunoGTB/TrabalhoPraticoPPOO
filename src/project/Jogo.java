@@ -1,14 +1,20 @@
 package project;
 
+import java.util.Random;
+
 public class Jogo 
 {
     private Analisador analisador;
     private Ambiente ambienteAtual;
+    private Random randomizer;
+    private int tentativas;
        
     public Jogo() 
     {
         criarAmbientes();
         analisador = new Analisador();
+        randomizer = new Random(); 
+        tentativas = randomizer.nextInt(21) + 10;
     }
 
     private void criarAmbientes()
@@ -50,9 +56,13 @@ public class Jogo
         imprimirBoasVindas();
                 
         boolean terminado = false;
-        while (! terminado) {
+        while (!terminado && tentativas != 0) {
             Comando comando = analisador.pegarComando();
             terminado = processarComando(comando);
+        }
+
+        if(tentativas == 0){
+            System.out.println("Suas tentativas acabaram!");
         }
         System.out.println("Obrigado por jogar. Ate mais!");
     }
@@ -63,6 +73,7 @@ public class Jogo
         System.out.print("Bem-vindo ao World of Zuul! ");
         System.out.println("Esse é um jogo de aventura em que você tem que achar o tesouro enterrado nesta casa mal-assombrada.");
         System.out.println("Digite 'ajuda' se voce precisar de ajuda.");
+        System.out.println("Você tem " + tentativas + " tentativas restantes.");
         System.out.println();
 
         imprimirLocalizacao();
@@ -100,6 +111,7 @@ public class Jogo
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
         System.out.println(analisador.mostrarComandos());
+        System.out.println("Você tem " + tentativas + " tentativas restantes.");
     }
 
     private void irParaAmbiente(Comando comando) 
@@ -118,7 +130,7 @@ public class Jogo
         }
         else {
             ambienteAtual = proximoAmbiente;
-            
+            tentativas--;
             imprimirLocalizacao();
         }
     }
