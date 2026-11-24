@@ -28,10 +28,10 @@ public class Simulacao {
                 executarUmPasso(posicao);
                 esperar(100);
             }
-            mapa.removerItem(jogador);
         }else{
             System.out.println("Não foi possível encontrar um caminho para o destino.");
         }
+        mapa.removerItem(jogador);
         System.out.println("Movimentação concluída.");
     }
 
