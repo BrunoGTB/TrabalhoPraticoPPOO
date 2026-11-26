@@ -13,6 +13,7 @@ public class Mapa {
     private final List<Desenhavel> itens = new ArrayList<Desenhavel>();
     private final int largura;
     private final int altura;
+    private final boolean[][] bloqueados;
     
     private static final int LARGURA_PADRAO = 20;
     private static final int ALTURA_PADRAO = 17;
@@ -25,6 +26,7 @@ public class Mapa {
     public Mapa(int largura, int altura) {
         this.largura = largura;
         this.altura = altura;
+        this.bloqueados = new boolean[largura][altura];
     }
 
     /**
@@ -34,12 +36,20 @@ public class Mapa {
         this(LARGURA_PADRAO,ALTURA_PADRAO);
     }
     
+    /**
+    * Adiciona um item ao mapa. Se o item bloqueia a passagem, a casa fica bloqueada.
+    * @param d item a ser adicionado
+    * @throws IllegalArgumentException se o item estiver fora dos limites do mapa
+    */
     public void adicionarItem(Desenhavel d){
+        Posicao p = d.getPosicaoOrigem();
+        if (!estaDentro(p)) {
+            throw new IllegalArgumentException("Item fora do mapa: " + p);
+        }
         itens.add(d);
-    }
-    
-    public void removerItem(Desenhavel d){
-        itens.remove(d);
+        if (d.bloqueiaPassagem()) {
+            bloqueados[p.getX()][p.getY()] = true;
+        }
     }
 
     public List<Desenhavel> getDesenhaveis() {
@@ -54,22 +64,20 @@ public class Mapa {
         return altura;
     }
 
-    public boolean podePassar(int x, int y) {
-        return estaDentro(x, y) && !bloqueado(x, y);
+    /**
+    * Informa se o jogador pode ocupar uma posição.
+    * @param p posição a verificar
+    * @return true se a posição está dentro do mapa e não tem parede
+    */
+    public boolean podePassar(Posicao p) {
+        return estaDentro(p) && !bloqueados[p.getX()][p.getY()];
     }
 
-    private boolean bloqueado(int x, int y) {
-        for (Desenhavel d : itens) {
-            Posicao p = d.getPosicaoOrigem();
-            if(d.bloqueiaPassagem() && p.getX() == x && p.getY() == y){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean estaDentro(int x, int y) {
-        return x >= 0 && x < largura
-            && y >= 0 && y < altura;
+    /**
+    * Informa se uma posição está dentro dos limites do mapa.
+    */
+    public boolean estaDentro(Posicao p) {
+        return p.getX() >= 0 && p.getX() < largura
+            && p.getY() >= 0 && p.getY() < altura;
     }
 }

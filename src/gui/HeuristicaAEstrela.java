@@ -137,8 +137,9 @@ public class HeuristicaAEstrela implements BuscaCaminho {
             int x,
             int y) {
 
-        if (mapa.podePassar(x, y)) {
-            vizinhos.add(new Posicao(x, y));
+        Posicao vizinho = new Posicao(x, y);
+        if (mapa.podePassar(vizinho)) {
+            vizinhos.add(vizinho);
         }
     }
 }
