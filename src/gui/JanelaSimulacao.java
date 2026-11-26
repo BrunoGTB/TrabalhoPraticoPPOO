@@ -21,19 +21,24 @@ public class JanelaSimulacao extends JFrame{
     }
 
     /**
-     * Mostra o estado atual do mapa.
-     */
-    public void executarAcao(){
+    * Redesenha o mapa: primeiro o cenário e depois o jogador por cima.
+    * @param jogador jogador a ser desenhado sobre o cenário
+    */
+    public void atualizar(Jogador jogador){
         visaoMapa.preparePaint();
-        /**  
-            O jogador é removido e re-adicionado a cada passo, então fica no fim
-            da lista e é desenhado por cima de paredes e letras.
-        **/
         for (Desenhavel d : mapa.getDesenhaveis()){
-            Posicao p = d.getPosicaoOrigem();
-            visaoMapa.desenharImagem(p.getX(), p.getY(), d.getImagem());
+            desenhar(d);
         }
+        desenhar(jogador);
         visaoMapa.repaint();
+    }
+
+    /**
+    * Desenha um elemento na sua posição do mapa.
+    */
+    private void desenhar(Desenhavel d){
+        Posicao p = d.getPosicaoOrigem();
+        visaoMapa.desenharImagem(p.getX(), p.getY(), d.getImagem());
     }
 
     /**

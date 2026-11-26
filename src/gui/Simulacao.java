@@ -17,10 +17,9 @@ public class Simulacao {
         this.janelaSimulacao = new JanelaSimulacao(mapa);
     }
     
-    public void executarSimulacao(Posicao origem, Posicao destino){
-        jogador.moverPara(origem);//Define a posicao origem do jogador
-        mapa.adicionarItem(jogador);
-        janelaSimulacao.executarAcao();
+        public void executarSimulacao(Posicao origem, Posicao destino){
+        jogador.moverPara(origem);
+        janelaSimulacao.atualizar(jogador);
         List<Posicao> caminho = buscaCaminho.encontrarCaminho(origem, destino);
         if (!caminho.isEmpty()) {
             for (Posicao posicao : caminho) {
@@ -30,15 +29,12 @@ public class Simulacao {
         }else{
             System.out.println("Não foi possível encontrar um caminho para o destino.");
         }
-        mapa.removerItem(jogador);
         System.out.println("Movimentação concluída.");
     }
 
     private void executarUmPasso(Posicao proximaLocalizacao) {
-        mapa.removerItem(jogador);
         jogador.moverPara(proximaLocalizacao);
-        mapa.adicionarItem(jogador);
-        janelaSimulacao.executarAcao();
+        janelaSimulacao.atualizar(jogador);
     }
     
     private void esperar(int milisegundos){
