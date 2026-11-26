@@ -9,10 +9,14 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class HeuristicaAEstrela implements BuscaCaminho {
+/**
+ * Encontra o menor caminho entre duas posições do mapa usando o algoritmo A*,
+ * com a distância Manhattan como heurística.
+ */
+public class BuscaAEstrela implements BuscaCaminho {
     private final Mapa mapa;
 
-    public HeuristicaAEstrela(Mapa mapa) {
+    public BuscaAEstrela(Mapa mapa) {
         this.mapa = mapa;
     }
 

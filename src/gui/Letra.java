@@ -9,7 +9,7 @@ public class Letra extends Desenhavel{
     }
 
     // MÉTODO:
-    public static Image charParaImagem(char c) {
+    private static Image charParaImagem(char c) {
         int largura = 40;
         int altura = 40;
 

@@ -21,7 +21,7 @@ public class Principal {
         new ConstrutorMapa(mapa).montarMapa();
         Jogador jogador = new Jogador(referencias.get("Sala de TV"));
         JanelaSimulacao janela = new JanelaSimulacao(mapa);
-        Simulacao sim = new Simulacao(jogador, new HeuristicaAEstrela(mapa), janela);
+        Simulacao sim = new Simulacao(jogador, new BuscaAEstrela(mapa), janela);
         
         for(String origem: referencias.keySet()){
             for(String destino: referencias.keySet()){
