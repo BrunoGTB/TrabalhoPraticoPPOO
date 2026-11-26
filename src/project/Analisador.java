@@ -1,17 +1,30 @@
 package project;
 import java.util.Scanner;
 
+/**
+ * Responsável por ler a entrada de texto do usuário no terminal e convertê-la
+ * em objetos Comando compreensíveis pelo jogo.
+ */
 public class Analisador 
 {
     private PalavrasComando palavrasDeComando;
     private Scanner entrada;
 
+    /**
+     * Inicializa o analisador com o dicionário de comandos válidos e o leitor de entrada padrão.
+     */
     public Analisador() 
     {
         palavrasDeComando = new PalavrasComando();
         entrada = new Scanner(System.in);
     }
 
+    /**
+     * Lê a próxima linha digitada pelo jogador, separa a primeira palavra e o restante
+     * do texto e retorna o comando correspondente.
+     *
+     * @return Um objeto Comando contendo a ação identificada (ou null se inválida).
+     */
     public Comando pegarComando() 
     {
         String linha;
@@ -38,6 +51,11 @@ public class Analisador
         }
     }
 
+    /**
+     * Retorna todas as palavras de comando aceitas pelo jogo.
+     *
+     * @return String com os comandos válidos.
+     */
     public String mostrarComandos(){
         return palavrasDeComando.mostrarComandos();
     }
