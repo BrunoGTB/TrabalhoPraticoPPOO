@@ -3,6 +3,11 @@ package gui;
 import java.awt.*;
 import javax.swing.ImageIcon;
 
+
+/**
+ * Elemento que pode ser desenhado no mapa, com uma posição e uma imagem.
+ * Superclasse de Parede, Letra e Jogador.
+ */
 public abstract class Desenhavel {
     // ATRIBUTOS:
     private Posicao posicaoOrigem;
@@ -36,16 +41,19 @@ public abstract class Desenhavel {
         posicaoOrigem = localizacao;
     }
 
-    /*
-        - No código Original o mapa descobria se podia passar com parede[x][y] != null
-        - O método que criamos abaixo já faz com que qualquer Desenhavel responda se pode passar ou não
-        - Por padrão não bloqueia; Parede sobrescreve.
-    */
+    /**
+     * Informa se o elemento impede o jogador de passar pela sua posição.
+     * Por padrão não bloqueia; Parede sobrescreve este método.
+     * @return true se bloqueia a passagem
+     */
     public boolean bloqueiaPassagem() {
         return false;
     }
 
-    // Elimina duplicação no carregamento de imagens.
+    /**
+     * Carrega uma imagem a partir do caminho de um recurso do projeto.
+     * @param caminho caminho da imagem, por exemplo "/Imagens/tijolo.png"
+     */
     public static Image carregarImagem(String caminho){
         return new ImageIcon(Desenhavel.class.getResource(caminho)).getImage();
     }

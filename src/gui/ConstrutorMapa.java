@@ -1,6 +1,8 @@
 package gui;
 
-// Responsável por montar o Mapa do jogo (paredes e letreiros) em um Mapa.
+/**
+ * Monta o mapa da casa, adicionando paredes e letreiros a um Mapa.
+ */
 public class ConstrutorMapa {
     private final Mapa mapa;
 

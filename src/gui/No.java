@@ -1,4 +1,9 @@
 package gui;
+
+/**
+ * Nó usado pelo A*: guarda uma posição, o nó anterior no caminho,
+ * o custo G (desde a origem) e o custo H (estimativa até o destino).
+ */
 public class No {
 
     private final Posicao posicao;

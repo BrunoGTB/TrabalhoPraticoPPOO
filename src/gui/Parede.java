@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * Representa os veiculos da simulacao.
+ * Representa uma parede do mapa, que bloqueia a passagem do jogador.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 

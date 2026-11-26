@@ -2,6 +2,9 @@ package gui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Letra de um letreiro do mapa (nome dos cômodos). Não bloqueia a passagem.
+ */
 public class Letra extends Desenhavel{
     // CONSTRUTOR:
     public Letra(Posicao posicao, char letra) {
