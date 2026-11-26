@@ -2,6 +2,10 @@ package project;
 
 import java.util.Random;
 
+/**
+ * Classe principal de controle do jogo "World of Zuul".
+ * Gerencia o loop da partida, inicializa o mapa e o jogador, e processa os comandos inseridos.
+ */
 public class Jogo 
 {
     private Analisador analisador;
@@ -9,6 +13,10 @@ public class Jogo
     private Casa casa;
     private Cacador cacador;
        
+    /**
+     * Inicializa uma nova partida, configurando o mapa, sorteando o estado inicial
+     * das portas e definindo aleatoriamente o número de tentativas do caçador (entre 10 e 30).
+     */
     public Jogo() 
     {
         analisador = new Analisador();
@@ -20,6 +28,10 @@ public class Jogo
         cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
     }
 
+    /**
+     * Inicia e mantém o loop principal do jogo até que o jogador decida sair
+     * ou esgote suas tentativas disponíveis.
+     */
     public void jogar() 
     {            
         imprimirBoasVindas();
@@ -36,6 +48,9 @@ public class Jogo
         System.out.println("Obrigado por jogar. Ate mais!");
     }
 
+    /**
+     * Exibe a mensagem inicial, as instruções básicas e a localização de inicio.
+     */
     private void imprimirBoasVindas()
     {
         System.out.println();
@@ -48,6 +63,12 @@ public class Jogo
         imprimirLocalizacao();
     }
 
+    /**
+     * Interpreta o comando fornecido pelo jogador e executa a ação correspondente.
+     *
+     * @param comando Objeto Comando contendo a ação e o argumento digitados.
+     * @return true se o jogador escolheu encerrar o jogo; false para continuar a partida.
+     */
     private boolean processarComando(Comando comando) 
     {
         boolean querSair = false;
@@ -76,6 +97,9 @@ public class Jogo
         return querSair;
     }
 
+    /**
+     * Exibe o contexto do jogo, os comandos válidos e as tentativas restantes.
+     */
     private void imprimirAjuda() 
     {
         System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que");
@@ -87,10 +111,19 @@ public class Jogo
         imprimirTentativas();
     }
 
+    /**
+     * Mostra no console a quantidade de tentativas que o caçador ainda possui.
+     */
     private void imprimirTentativas(){
         System.out.println("Você tem " + cacador.getTentativas() + " tentativas restantes.");
     }
 
+    /**
+     * Tenta mover o caçador para o ambiente especificado na segunda palavra do comando.
+     * Consome uma tentativa caso exista passagem e atualiza o estado das portas da casa.
+     *
+     * @param comando Comando "ir" acompanhado do nome do ambiente de destino.
+     */
     private void irParaAmbiente(Comando comando) 
     {
         if(!comando.temSegundaPalavra()) {
@@ -115,10 +148,16 @@ public class Jogo
         casa.redefinirPortas(randomizer);
     }
 
+    /**
+     * Exibe a descrição e as saídas do ambiente em que o caçador está.
+     */
     private void imprimirLocalizacao(){
         System.out.println(cacador.getAmbienteAtual().getDescricaoLonga());
     }
 
+    /**
+     * Executa o comando "olhar", exibindo a descrição do ambiente atual.
+     */
     private void olhar(){
         imprimirLocalizacao();
     }
