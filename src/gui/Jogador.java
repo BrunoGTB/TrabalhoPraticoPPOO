@@ -1,37 +1,24 @@
 package gui;
 
 /**
- * Representa o jogador
+ * Representa o jogador que se movimenta pelo mapa.
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
-
 public class Jogador extends Desenhavel{
-    private Posicao posicaoDestino;
-    
+
+    /**
+     * Cria o jogador em uma posição do mapa.
+     * @param localizacao posição inicial do jogador
+     */
     public Jogador(Posicao localizacao) {
-        super(
-            localizacao, 
-            carregarImagem("/Imagens/pessoa.png")
-        );
-        posicaoDestino = null;
+        super(localizacao, carregarImagem("/Imagens/pessoa.png"));
     }
 
-    public Posicao getPosicaoDestino() {
-        return posicaoDestino;
+    /**
+     * Move o jogador para uma nova posição do mapa.
+     * @param novaPosicao posição para onde o jogador vai
+     */
+    public void moverPara(Posicao novaPosicao) {
+        setPosicaoOrigem(novaPosicao);
     }
-
-    public void setPosicaoOrigem(Posicao localizacaoAtual) {
-        super.setPosicaoOrigem(localizacaoAtual);
-    }
-
-    public void setPosicaoDestino(Posicao localizacaoDestino) {
-        this.posicaoDestino = localizacaoDestino;
-    }
-    
-    public void executarAcao(Posicao proximaLocalizacao) {
-        Posicao destino = getPosicaoDestino();
-        if(destino != null){
-            setPosicaoOrigem(proximaLocalizacao);
-        }
-    } 
 }

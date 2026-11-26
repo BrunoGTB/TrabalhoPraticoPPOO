@@ -18,11 +18,10 @@ public class Simulacao {
     }
     
     public void executarSimulacao(Posicao origem, Posicao destino){
-        jogador.setPosicaoOrigem(origem);//Define a posicao origem do jogador
-        jogador.setPosicaoDestino(destino);//Define a posicao destino do jogador
-        mapa.adicionarItem(jogador);//Inicializando o mapa com o jogador
+        jogador.moverPara(origem);//Define a posicao origem do jogador
+        mapa.adicionarItem(jogador);
         janelaSimulacao.executarAcao();
-        List<Posicao> caminho = buscaCaminho.encontrarCaminho(jogador.getPosicaoOrigem(), jogador.getPosicaoDestino());
+        List<Posicao> caminho = buscaCaminho.encontrarCaminho(origem, destino);
         if (!caminho.isEmpty()) {
             for (Posicao posicao : caminho) {
                 executarUmPasso(posicao);
@@ -37,7 +36,7 @@ public class Simulacao {
 
     private void executarUmPasso(Posicao proximaLocalizacao) {
         mapa.removerItem(jogador);
-        jogador.executarAcao(proximaLocalizacao);
+        jogador.moverPara(proximaLocalizacao);
         mapa.adicionarItem(jogador);
         janelaSimulacao.executarAcao();
     }
