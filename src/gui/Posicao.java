@@ -6,8 +6,8 @@ package gui;
  */
 
 public class Posicao {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     
     /**
      * Representa uma localização na cidade

@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 public abstract class Desenhavel {
     // ATRIBUTOS:
     private Posicao posicaoOrigem;
-    private Image imagem;
+    private final Image imagem;
 
     //CONSTRUTORES:
     /**

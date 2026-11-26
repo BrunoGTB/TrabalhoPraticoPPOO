@@ -1,11 +1,11 @@
 package gui;
 public class No {
 
-    private Posicao posicao;
-    private No pai;
+    private final Posicao posicao;
+    private final No pai;
 
-    private int custoG;
-    private int custoH;
+    private final int custoG;
+    private final int custoH;
 
     public No(Posicao posicao, No pai, int custoG, int custoH) {
         this.posicao = posicao;

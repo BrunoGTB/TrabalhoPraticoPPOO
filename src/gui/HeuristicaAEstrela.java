@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 public class HeuristicaAEstrela implements BuscaCaminho {
-    private Mapa mapa;
+    private final Mapa mapa;
 
     public HeuristicaAEstrela(Mapa mapa) {
         this.mapa = mapa;

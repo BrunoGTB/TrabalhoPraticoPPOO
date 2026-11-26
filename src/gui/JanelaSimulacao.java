@@ -7,8 +7,8 @@ import javax.swing.*;
  * @author David J. Barnes and Michael Kolling and Luiz Merschmann
  */
 public class JanelaSimulacao extends JFrame{
-    private Mapa mapa;
-    private VisaoMapa visaoMapa;
+    private final Mapa mapa;
+    private final VisaoMapa visaoMapa;
     
     public JanelaSimulacao(Mapa mapa){
         this.mapa = mapa;

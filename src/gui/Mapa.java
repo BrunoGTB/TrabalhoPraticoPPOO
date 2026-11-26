@@ -11,8 +11,8 @@ import java.util.Collections;
 
 public class Mapa {
     private final List<Desenhavel> itens = new ArrayList<Desenhavel>();
-    private int largura;
-    private int altura;
+    private final int largura;
+    private final int altura;
     
     private static final int LARGURA_PADRAO = 20;
     private static final int ALTURA_PADRAO = 17;
