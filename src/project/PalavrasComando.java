@@ -3,7 +3,7 @@ package project;
 public class PalavrasComando
 {
     private static final String[] comandosValidos = {
-        "ir", "sair", "ajuda", "olhar"
+        "ir", "sair", "ajuda", "olhar", "explodir"
     };
 
     public boolean ehComando(String umaString)
