@@ -3,11 +3,18 @@ package project;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Gerencia o mapa da casa mal-assombrada, armazenando todos os ambientes,
+ * as portas que os interligam e o ponto de partida do jogador.
+ */
 public class Casa {
     private ArrayList<Ambiente> ambientes;
     private ArrayList<Porta> portas;
     private Ambiente ambienteInicial;
 
+    /**
+     * Constrói a casa e inicializa toda a estrutura de ambientes e conexões.
+     */
     public Casa(){
         ambientes = new ArrayList<>();
         portas = new ArrayList<>();
@@ -51,6 +58,11 @@ public class Casa {
         portas.add(porta);
     }
 
+    /**
+     * Redefine novamente o estado (emperrada ou não) de todas as portas da casa.
+     *
+     * @param sorteador gerador de números aleatórios usado para definir o estado de cada porta.
+     */
     public void redefinirPortas(Random sorteador){
         for(Porta porta : portas){
             porta.redefinirEmperrada(sorteador);
