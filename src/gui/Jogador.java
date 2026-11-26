@@ -7,10 +7,6 @@ package gui;
 
 public class Jogador extends Desenhavel{
     private Posicao posicaoDestino;
-
-    public Jogador(){
-        super(carregarImagem("/Imagens/pessoa.png"));
-    }
     
     public Jogador(Posicao localizacao) {
         super(

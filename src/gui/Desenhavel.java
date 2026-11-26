@@ -9,12 +9,17 @@ public abstract class Desenhavel {
     private Image imagem;
 
     //CONSTRUTORES:
+    /**
+     * Cria um elemento desenhável no mapa.
+     * @param localizacao posição inicial no mapa (não pode ser nula)
+     * @param imagem imagem usada para desenhar o elemento
+     * @throws IllegalArgumentException se a localização for nula
+     */
     public Desenhavel(Posicao localizacao, Image imagem){
+        if (localizacao == null) {
+            throw new IllegalArgumentException("A posição não pode ser nula.");
+        }
         posicaoOrigem = localizacao;
-        this.imagem = imagem;
-    }
-
-    public Desenhavel(Image imagem){
         this.imagem = imagem;
     }
 
