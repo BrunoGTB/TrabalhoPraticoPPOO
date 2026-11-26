@@ -7,14 +7,18 @@ import java.util.List;
 public class Simulacao {
     private final Jogador jogador;
     private final JanelaSimulacao janelaSimulacao;
-    private final Mapa mapa;
     private final BuscaCaminho buscaCaminho;
     
-    public Simulacao(Mapa mapa, Jogador jogador, BuscaCaminho buscaCaminho) { 
-        this.mapa = mapa;
+    /**
+    * Cria a simulação com os objetos que ela vai usar.
+    * @param jogador jogador que se movimenta no mapa
+    * @param buscaCaminho algoritmo usado para encontrar o caminho
+    * @param janelaSimulacao janela onde o mapa é desenhado
+    */
+    public Simulacao(Jogador jogador, BuscaCaminho buscaCaminho, JanelaSimulacao janelaSimulacao) { 
         this.jogador = jogador;
         this.buscaCaminho = buscaCaminho;
-        this.janelaSimulacao = new JanelaSimulacao(mapa);
+        this.janelaSimulacao = janelaSimulacao;
     }
     
         public void executarSimulacao(Posicao origem, Posicao destino){
