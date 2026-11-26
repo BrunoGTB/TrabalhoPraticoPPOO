@@ -18,7 +18,7 @@ public class Principal {
         referencias.put("Área de Serviço", new Posicao(16, 14));
         referencias.put("Corredor", new Posicao(9, 6));
         Mapa mapa = new Mapa();
-        new ConstrutorMapa(mapa).montarMapa();
+        new ConstrutorMapa(mapa).montarMapa("src/casa.txt");
         Jogador jogador = new Jogador(referencias.get("Sala de TV"));
         JanelaSimulacao janela = new JanelaSimulacao(mapa);
         Simulacao sim = new Simulacao(jogador, new BuscaAEstrela(mapa), janela);
