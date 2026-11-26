@@ -1,5 +1,7 @@
 package project;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Representa uma localização dentro da casa mal-assombrada do jogo.
@@ -11,6 +13,7 @@ public class Ambiente
     private String nome;
     private String descricao;
     private HashMap<String, Porta> saidas;
+    private List<Item> itens;
 
     /**
      * Cria um novo ambiente com nome e descrição definidos.
@@ -22,7 +25,8 @@ public class Ambiente
     {
         this.nome = nome;
         this.descricao = descricao;
-        saidas = new HashMap<>();
+        saidas = new HashMap<String, Porta>();
+        itens = new ArrayList<Item>();
     }
 
     /**
@@ -73,5 +77,16 @@ public class Ambiente
      */
     public String getDescricaoLonga(){
         return "Você está " + descricao + " da casa mal-assombrada.\n" + getSaidasString() + "\n";
+    }
+
+    public void adicionarItem(Item item){
+        itens.add(item);
+    }
+
+    public boolean temTesouro(){
+        for(Item item : itens){
+            if(item.ehTesouro()) return true;
+        }
+        return false;
     }
 }

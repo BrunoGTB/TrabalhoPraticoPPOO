@@ -11,13 +11,14 @@ public class Casa {
     private ArrayList<Ambiente> ambientes;
     private ArrayList<Porta> portas;
     private Ambiente ambienteInicial;
+    private Ambiente ambienteTesouro;
 
     /**
      * Constrói a casa e inicializa toda a estrutura de ambientes e conexões.
      */
     public Casa(){
-        ambientes = new ArrayList<>();
-        portas = new ArrayList<>();
+        ambientes = new ArrayList<Ambiente>();
+        portas = new ArrayList<Porta>();
         criarAmbientes();
     }
 
@@ -49,6 +50,19 @@ public class Casa {
         Ambiente ambiente = new Ambiente(nome, descricao);
         ambientes.add(ambiente);
         return ambiente;
+    }
+
+    public Ambiente sortearAmbiente(Random sorteador){
+        return ambientes.get(sorteador.nextInt(ambientes.size()));
+    }
+
+    public void esconderTesouro(Random sorteador){
+        ambienteTesouro = sortearAmbiente(sorteador);
+        ambienteTesouro.adicionarItem(new Tesouro());
+    }
+
+    public Ambiente getAmbienteTesouro(){
+        return ambienteTesouro;
     }
 
     private void ligar(Ambiente a, Ambiente b){

@@ -23,6 +23,7 @@ public class Jogo
         randomizer = new Random(); 
         casa = new Casa();
         casa.redefinirPortas(randomizer);
+        casa.esconderTesouro(randomizer);
         int tentativas = randomizer.nextInt(21) + 10;
         cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
     }
@@ -88,6 +89,9 @@ public class Jogo
             querSair = sair(comando);
         }else if( palavraDeComando.equals("olhar")){
             olhar();
+        }else if(palavraDeComando.equals("explodir")){
+            explodir();
+            querSair = true;
         }
 
         return querSair;
@@ -100,6 +104,7 @@ public class Jogo
     {
         System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que");
         System.out.println("você o encontre! Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
+        System.out.println("Se achar que encontrou a sala que contém o tesouro, exploda o chão dela! Mas cuidado, você só tem uma carga!");
         System.out.println();
         System.out.println("Suas palavras de comando sao:");
         System.out.println(analisador.mostrarComandos());
@@ -157,12 +162,16 @@ public class Jogo
         imprimirLocalizacao();
     }
 
-    /**
-     * Valida o comando "sair", garantindo que não haja argumentos extras antes de encerrar.
-     *
-     * @param comando comando "sair" digitado pelo jogador.
-     * @return true se o comando estiver correto para sair; false caso tenha segunda palavra.
-     */
+    public void explodir(){
+        Ambiente atual = cacador.getAmbienteAtual();
+        System.out.println("BOOM! Você explodiu o chão " + atual.getDescricao() + "...");
+        if(atual.temTesouro()){
+            System.out.println("Você encontrou o tesouro! Você venceu!");
+        }else{
+            System.out.println("Não havia nada aqui, e sua carga acabou. Você perdeu!");
+        }
+    }
+
     private boolean sair(Comando comando) 
     {
         if(comando.temSegundaPalavra()) {
