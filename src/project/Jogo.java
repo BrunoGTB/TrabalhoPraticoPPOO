@@ -16,8 +16,11 @@ public class Jogo
     private Cacador cacador;
        
     /**
-     * Inicializa uma nova partida, configurando o mapa, sorteando o estado inicial
-     * das portas e definindo aleatoriamente o número de tentativas do caçador (entre 10 e 30).
+     * Inicializa uma nova partida a partir de uma casa já carregada, sorteia o estado inicial
+     * das portas, distribui os itens, grava o gabarito e define aleatoriamente o número
+     * de tentativas do caçador (entre 10 e 30).
+     *
+     * @param casa estrutura do mapa contendo os ambientes e portas do jogo.
      */
     public Jogo(Casa casa) 
     {
@@ -39,8 +42,8 @@ public class Jogo
     }
 
     /**
-     * Inicia e mantém o loop principal do jogo até que o jogador decida sair
-     * ou esgote suas tentativas disponíveis.
+     * Inicia e mantém o loop principal do jogo até que o jogador decida sair,
+     * tente explodir o chão em busca do tesouro ou esgote suas tentativas disponíveis.
      */
     public void jogar() 
     {            
@@ -60,7 +63,7 @@ public class Jogo
     }
 
     /**
-     * Exibe a mensagem inicial, as instruções básicas e a localização de inicio.
+     * Exibe a mensagem inicial, as instruções básicas e a localização de início.
      */
     private void imprimirBoasVindas()
     {
@@ -78,7 +81,7 @@ public class Jogo
      * Interpreta o comando fornecido pelo jogador e executa a ação correspondente.
      *
      * @param comando Objeto Comando contendo a ação e o argumento digitados.
-     * @return true se o jogador escolheu encerrar o jogo; false para continuar a partida.
+     * @return true se a partida deve ser encerrada; false para continuar jogando.
      */
     private boolean processarComando(Comando comando) 
     {
@@ -113,7 +116,7 @@ public class Jogo
     }
 
     /**
-     * Exibe o contexto do jogo, os comandos válidos e as tentativas restantes.
+     * Exibe o contexto do jogo, as regras dos itens e os comandos válidos.
      */
     private void imprimirAjuda() 
     {
@@ -127,9 +130,11 @@ public class Jogo
         System.out.println();
         System.out.println("Suas palavras de comando são:");
         System.out.println(analisador.mostrarComandos());
-        
     }
 
+    /**
+     * Exibe o resumo atual do jogador: dicas coletadas, tentativas restantes e durabilidade da chave.
+     */
     private void imprimirInformacoes(){
         imprimirDicas();
         imprimirTentativas();
@@ -143,6 +148,9 @@ public class Jogo
         System.out.println("Você tem " + cacador.getTentativas() + " tentativas restantes.");
     }
 
+    /**
+     * Lista no console todas as dicas que o caçador já encontrou até o momento.
+     */
     private void imprimirDicas(){
         List<Dica> dicas = cacador.getDicas();
         if(dicas.isEmpty()){
@@ -155,6 +163,9 @@ public class Jogo
         }
     }
 
+    /**
+     * Informa se o jogador possui a chave mestra e quantos usos ela ainda tem.
+     */
     private void imprimirDurabilidade(){
         if(!cacador.temChave()){
             System.out.println("Você ainda não encontrou a chave!");
@@ -162,11 +173,12 @@ public class Jogo
             System.out.println("Usos restantes da chave mestra: " + cacador.getDurabilidadeChave());
         }
     }
+
     /**
      * Tenta mover o caçador para o ambiente especificado na segunda palavra do comando.
      * Consome uma tentativa caso exista passagem e atualiza o estado das portas da casa.
      *
-     * @param comando Comando "ir" acompanhado do nome do ambiente de destino.
+     * @param comando comando "ir" acompanhado do nome do ambiente de destino.
      */
     private void irParaAmbiente(Comando comando) 
     {
@@ -191,18 +203,34 @@ public class Jogo
         casa.redefinirPortas(randomizer);
     }
 
+    /**
+     * Move o caçador para o ambiente de destino, exibe sua descrição e recolhe os itens presentes.
+     *
+     * @param destino ambiente em que o caçador está entrando.
+     */
     private void entrarEm(Ambiente destino){
         cacador.moverPara(destino);
         imprimirLocalizacao();
         recolherItens(destino);
     }
 
+    /**
+     * Coleta e exibe as mensagens de todos os itens no ambiente atual.
+     *
+     * @param atual ambiente onde os itens serão verificados e entregues ao caçador.
+     */
     private void recolherItens(Ambiente atual){
         for(String mensagem : atual.entregarItens(cacador)){
             System.out.println(mensagem);
         }
     }
 
+    /**
+     * Utiliza a chave mestra para atravessar uma porta sem gastar tentativas e ignorando
+     * se ela está emperrada, consumindo uma unidade de durabilidade da chave.
+     *
+     * @param comando Comando "chave" acompanhado do nome do ambiente de destino.
+     */
     private void usarChave(Comando comando){
         if(!cacador.podeUsarChave()){
             System.out.println("Você não tem uma chave mestra utilizável.");
@@ -239,6 +267,10 @@ public class Jogo
         imprimirLocalizacao();
     }
 
+    /**
+     * Detona a carga explosiva no ambiente atual para tentar revelar o tesouro,
+     * encerrando o jogo com vitória ou derrota.
+     */
     private void explodir(){
         Ambiente atual = cacador.getAmbienteAtual();
         System.out.println("BOOM! Você explodiu o chão " + atual.getDescricao() + "...");
@@ -249,6 +281,12 @@ public class Jogo
         }
     }
 
+    /**
+     * Valida o comando "sair", garantindo que não haja argumentos extras antes de encerrar.
+     *
+     * @param comando Comando "sair" digitado pelo jogador.
+     * @return true se o comando estiver correto para sair, false caso tenha segunda palavra.
+     */
     private boolean sair(Comando comando) 
     {
         if(comando.temSegundaPalavra()) {
