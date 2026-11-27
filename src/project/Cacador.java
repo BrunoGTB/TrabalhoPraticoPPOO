@@ -53,8 +53,12 @@ public class Cacador {
         chave.desgastar();
     }
 
+    public boolean temChave(){
+        return chave != null;
+    }
+
     public int getDurabilidadeChave(){
-        if(chave == null){
+        if(!temChave()){
             return 0;
         }
         return chave.getDurabilidade();

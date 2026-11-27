@@ -1,5 +1,6 @@
 package project;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,7 +27,6 @@ public class Jogo
         casa.distribuirItens(randomizer);
         int tentativas = randomizer.nextInt(21) + 10;
         cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
-        recolherItens(casa.getAmbienteInicial());
     }
 
     /**
@@ -36,6 +36,7 @@ public class Jogo
     public void jogar() 
     {            
         imprimirBoasVindas();
+        recolherItens(casa.getAmbienteInicial());
                 
         boolean terminado = false;
         while (!terminado && cacador.temTentativas()) {
@@ -94,7 +95,9 @@ public class Jogo
             explodir();
             querSair = true;
         }else if(palavraDeComando.equals("chave")){
-
+            usarChave(comando);
+        }else if(palavraDeComando.equals("informacoes")){
+            imprimirInformacoes();
         }
 
         return querSair;
@@ -108,10 +111,20 @@ public class Jogo
         System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que");
         System.out.println("você o encontre! Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
         System.out.println("Se achar que encontrou a sala que contém o tesouro, exploda o chão dela! Mas cuidado, você só tem uma carga!");
+        System.out.println("Você pode encontrar itens para auxiliar sua busca. Se encontrar uma chave mestra, pode usá-la digitando");
+        System.out.println("'chave Cozinha', por exemplo. Isso garante que nenhum fantasma vai emperrar a sua porta, e você não usará tentativas. Mas cuidado!");
+        System.out.println("A chave tem durabilidade, então a use com sabedoria. Você também pode encontrar dicas que vão te dizer onde o tesouro não está.");
+        System.out.println("Você pode ver suas tentativas restantes, a durabilidade da sua chave e as dicas que já achou digitando 'informacoes'");
         System.out.println();
-        System.out.println("Suas palavras de comando sao:");
+        System.out.println("Suas palavras de comando são:");
         System.out.println(analisador.mostrarComandos());
+        
+    }
+
+    private void imprimirInformacoes(){
+        imprimirDicas();
         imprimirTentativas();
+        imprimirDurabilidade();
     }
 
     /**
@@ -121,6 +134,25 @@ public class Jogo
         System.out.println("Você tem " + cacador.getTentativas() + " tentativas restantes.");
     }
 
+    private void imprimirDicas(){
+        List<Dica> dicas = cacador.getDicas();
+        if(dicas.isEmpty()){
+            System.out.println("Você ainda não encontrou nenhuma dica.");
+            return;
+        }
+        System.out.println("Suas dicas encontradas são: ");
+        for(Dica dica : dicas){
+            System.out.println("- " + dica.getTexto());
+        }
+    }
+
+    private void imprimirDurabilidade(){
+        if(!cacador.temChave()){
+            System.out.println("Você ainda não encontrou a chave!");
+        }else{
+            System.out.println("Usos restantes da chave mestra: " + cacador.getDurabilidadeChave());
+        }
+    }
     /**
      * Tenta mover o caçador para o ambiente especificado na segunda palavra do comando.
      * Consome uma tentativa caso exista passagem e atualiza o estado das portas da casa.
@@ -162,7 +194,7 @@ public class Jogo
         }
     }
 
-    public void usarChave(Comando comando){
+    private void usarChave(Comando comando){
         if(!cacador.podeUsarChave()){
             System.out.println("Você não tem uma chave mestra utilizável.");
             return;
