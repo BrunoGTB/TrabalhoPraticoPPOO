@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Gerencia o mapa da casa mal-assombrada, armazenando todos os ambientes,
- * as portas que os interligam e o ponto de partida do jogador.
+ * Gerencia o mapa da casa mal-assombrada, carregando os ambientes e portas a partir de um arquivo,
+ * distribuindo os itens pelo cenário e controlando o ponto de partida do jogador.
  */
 public class Casa {
     private ArrayList<Ambiente> ambientes;
@@ -19,7 +19,10 @@ public class Casa {
     private static final int NUMERO_DE_DICAS = 2;
 
     /**
-     * Constrói a casa e inicializa toda a estrutura de ambientes e conexões.
+     * Constrói a casa carregando os ambientes, portas e o ponto inicial a partir de um leitor de arquivo.
+     *
+     * @param leitor leitor contendo os registros estruturados do mapa.
+     * @throws ArquivoInvalidoException se o arquivo possuir registros inválidos ou inconsistentes.
      */
     public Casa(LeitorArquivo leitor) throws ArquivoInvalidoException{
         ambientes = new ArrayList<Ambiente>();
@@ -70,6 +73,12 @@ public class Casa {
         return ambiente;
     }
 
+    /**
+     * Seleciona aleatoriamente um dos ambientes da casa.
+     *
+     * @param randomizer gerador de números aleatórios.
+     * @return Um Ambiente sorteado da lista de ambientes da casa.
+     */
     public Ambiente sortearAmbiente(Random randomizer){
         return ambientes.get(randomizer.nextInt(ambientes.size()));
     }
@@ -78,6 +87,11 @@ public class Casa {
         return ambienteTesouro;
     }
 
+    /**
+     * Distribui aleatoriamente o tesouro, as dicas e uma chave mestra pelos ambientes da casa.
+     *
+     * @param randomizer gerador de números aleatórios usado para sortear os locais e a durabilidade da chave.
+     */
     public void distribuirItens(Random randomizer){
         ambienteTesouro = sortearAmbiente(randomizer);
         ambienteTesouro.adicionarItem(new Tesouro());
@@ -124,6 +138,11 @@ public class Casa {
         return ambienteInicial;
     }
 
+    /**
+     * Gera a listagem textual da localização de todos os itens distribuídos na casa.
+     *
+     * @return Lista de strings contendo o nome de cada ambiente e os itens presentes nele.
+     */
     public List<String> gerarGabarito(){
         List<String> linhas = new ArrayList<String>();
         for(Ambiente ambiente : ambientes){
