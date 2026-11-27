@@ -15,7 +15,7 @@ public class Principal {
         referencias.put("Sala de Jantar", new Posicao(4, 10));
         referencias.put("Cozinha", new Posicao(16, 10));
         referencias.put("Sala de TV", new Posicao(4, 14));
-        referencias.put("Área de Serviço", new Posicao(16, 14));
+        referencias.put("Area de Servico", new Posicao(16, 14));
         referencias.put("Corredor", new Posicao(9, 6));
         Mapa mapa = new Mapa();
         new ConstrutorMapa(mapa).montarMapa("src/casa.txt");
