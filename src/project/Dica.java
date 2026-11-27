@@ -21,4 +21,9 @@ public class Dica extends Item{
         cacador.adicionarDica(this);
         return "Você encontrou uma dica: " + getTexto();
     }
+
+    @Override 
+    public String getDescricaoGabarito(){
+        return "Dica: " + getTexto();
+    }
 }

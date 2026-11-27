@@ -15,4 +15,9 @@ public class Tesouro extends Item{
     public boolean ehTesouro(){
         return true;
     }
+
+    @Override 
+    public String getDescricaoGabarito(){
+        return "Tesouro";
+    }
 }

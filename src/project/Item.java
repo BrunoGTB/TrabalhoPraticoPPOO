@@ -9,4 +9,6 @@ public abstract class Item {
     public boolean ehTesouro(){
         return false;
     }
+
+    public abstract String getDescricaoGabarito();
 }

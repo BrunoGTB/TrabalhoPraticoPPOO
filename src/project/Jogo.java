@@ -1,5 +1,6 @@
 package project;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +26,14 @@ public class Jogo
         casa = new Casa();
         casa.redefinirPortas(randomizer);
         casa.distribuirItens(randomizer);
+
+        GravadorGabarito gravador = new GravadorGabarito("gabarito.txt");
+        try{
+            gravador.gravar(casa.gerarGabarito());
+        }catch(IOException e){
+            System.out.println("Não foi possível gravar o gabarito: " + e.getMessage());
+        }
+
         int tentativas = randomizer.nextInt(21) + 10;
         cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
     }

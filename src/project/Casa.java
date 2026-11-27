@@ -27,7 +27,7 @@ public class Casa {
     private void criarAmbientes()
     {
         Ambiente salaTv      = criarAmbiente("Sala de TV", "na Sala de TV");
-        Ambiente areaServico = criarAmbiente("Área de Serviço", "na Área de Serviço");
+        Ambiente areaServico = criarAmbiente("Area de Servico", "na Área de Serviço");
         Ambiente salaJantar  = criarAmbiente("Sala de Jantar", "na Sala de Jantar");
         Ambiente cozinha     = criarAmbiente("Cozinha", "na Cozinha");
         Ambiente corredor    = criarAmbiente("Corredor", "no Corredor");
@@ -106,5 +106,15 @@ public class Casa {
 
     public Ambiente getAmbienteInicial(){
         return ambienteInicial;
+    }
+
+    public List<String> gerarGabarito(){
+        List<String> linhas = new ArrayList<String>();
+        for(Ambiente ambiente : ambientes){
+            for(Item item : ambiente.getItens()){
+                linhas.add(ambiente.getNome() + ": " + item.getDescricaoGabarito());
+            }
+        }
+        return linhas;
     }
 }

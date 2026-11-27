@@ -1,5 +1,6 @@
 package project;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,5 +103,9 @@ public class Ambiente
             }
         }
         return mensagens;
+    }
+
+    public List<Item> getItens(){
+        return Collections.unmodifiableList(itens);
     }
 }

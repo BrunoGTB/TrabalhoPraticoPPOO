@@ -29,4 +29,9 @@ public class ChaveMestra extends Item{
         cacador.receberChave(this);
         return "Você encontrou a chave mestra! Durabilidade: " + durabilidade;
     }
+
+    @Override 
+    public String getDescricaoGabarito(){
+        return "Chave mestra (durabilidade " + durabilidade + ")";
+    }
 }
