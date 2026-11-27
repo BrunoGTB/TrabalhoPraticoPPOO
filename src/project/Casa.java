@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,6 +13,7 @@ public class Casa {
     private ArrayList<Porta> portas;
     private Ambiente ambienteInicial;
     private Ambiente ambienteTesouro;
+    private static final int NUMERO_DE_DICAS = 2;
 
     /**
      * Constrói a casa e inicializa toda a estrutura de ambientes e conexões.
@@ -52,17 +54,36 @@ public class Casa {
         return ambiente;
     }
 
-    public Ambiente sortearAmbiente(Random sorteador){
-        return ambientes.get(sorteador.nextInt(ambientes.size()));
-    }
-
-    public void esconderTesouro(Random sorteador){
-        ambienteTesouro = sortearAmbiente(sorteador);
-        ambienteTesouro.adicionarItem(new Tesouro());
+    public Ambiente sortearAmbiente(Random randomizer){
+        return ambientes.get(randomizer.nextInt(ambientes.size()));
     }
 
     public Ambiente getAmbienteTesouro(){
         return ambienteTesouro;
+    }
+
+    public void distribuirItens(Random randomizer){
+        ambienteTesouro = sortearAmbiente(randomizer);
+        ambienteTesouro.adicionarItem(new Tesouro());
+
+        List<Ambiente> jaUsados = new ArrayList<Ambiente>();
+        jaUsados.add(ambienteTesouro);
+        for(int i = 0; i < NUMERO_DE_DICAS; i++){
+            Ambiente semTesouro = sortearAmbienteFora(jaUsados, randomizer);
+            jaUsados.add(semTesouro);
+            sortearAmbiente(randomizer).adicionarItem(new Dica(semTesouro));
+        }
+
+        int durabilidade = randomizer.nextInt(10) + 1;
+        sortearAmbiente(randomizer).adicionarItem(new ChaveMestra(durabilidade));
+    }
+
+    private Ambiente sortearAmbienteFora(List<Ambiente> excluidos, Random randomizer){
+        Ambiente sorteado;
+        do{
+            sorteado = sortearAmbiente(randomizer);
+        }while(excluidos.contains(sorteado));
+        return sorteado;
     }
 
     private void ligar(Ambiente a, Ambiente b){
@@ -75,11 +96,11 @@ public class Casa {
     /**
      * Redefine novamente o estado (emperrada ou não) de todas as portas da casa.
      *
-     * @param sorteador gerador de números aleatórios usado para definir o estado de cada porta.
+     * @param randomizer gerador de números aleatórios usado para definir o estado de cada porta.
      */
-    public void redefinirPortas(Random sorteador){
+    public void redefinirPortas(Random randomizer){
         for(Porta porta : portas){
-            porta.redefinirEmperrada(sorteador);
+            porta.redefinirEmperrada(randomizer);
         }
     }
 

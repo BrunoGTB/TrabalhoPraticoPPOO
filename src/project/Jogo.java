@@ -23,9 +23,10 @@ public class Jogo
         randomizer = new Random(); 
         casa = new Casa();
         casa.redefinirPortas(randomizer);
-        casa.esconderTesouro(randomizer);
+        casa.distribuirItens(randomizer);
         int tentativas = randomizer.nextInt(21) + 10;
         cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
+        recolherItens(casa.getAmbienteInicial());
     }
 
     /**
@@ -92,6 +93,8 @@ public class Jogo
         }else if(palavraDeComando.equals("explodir")){
             explodir();
             querSair = true;
+        }else if(palavraDeComando.equals("chave")){
+
         }
 
         return querSair;
@@ -142,9 +145,42 @@ public class Jogo
         if(porta.estaEmperrada()){
             System.out.println("A porta está emperrada!");
         }else{
-            cacador.moverPara(porta.getOutroLado(atual));
-            imprimirLocalizacao();
+            entrarEm(porta.getOutroLado(atual));
         }
+        casa.redefinirPortas(randomizer);
+    }
+
+    private void entrarEm(Ambiente destino){
+        cacador.moverPara(destino);
+        imprimirLocalizacao();
+        recolherItens(destino);
+    }
+
+    private void recolherItens(Ambiente atual){
+        for(String mensagem : atual.entregarItens(cacador)){
+            System.out.println(mensagem);
+        }
+    }
+
+    public void usarChave(Comando comando){
+        if(!cacador.podeUsarChave()){
+            System.out.println("Você não tem uma chave mestra utilizável.");
+            return;
+        }
+
+        if(!comando.temSegundaPalavra()){
+            System.out.println("Usar a chave em qual porta?");
+            return;
+        }
+
+        Ambiente atual = cacador.getAmbienteAtual();
+        Porta porta = atual.getPorta(comando.getSegundaPalavra());
+        if(porta == null){
+            System.out.println("Não há passagem!");
+            return;
+        }
+        cacador.usarChave();
+        entrarEm(porta.getOutroLado(atual));
         casa.redefinirPortas(randomizer);
     }
 
@@ -162,7 +198,7 @@ public class Jogo
         imprimirLocalizacao();
     }
 
-    public void explodir(){
+    private void explodir(){
         Ambiente atual = cacador.getAmbienteAtual();
         System.out.println("BOOM! Você explodiu o chão " + atual.getDescricao() + "...");
         if(atual.temTesouro()){

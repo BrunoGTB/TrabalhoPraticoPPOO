@@ -1,6 +1,7 @@
 package project;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -88,5 +89,18 @@ public class Ambiente
             if(item.ehTesouro()) return true;
         }
         return false;
+    }
+
+    public List<String> entregarItens(Cacador cacador){
+        List<String> mensagens = new ArrayList<String>();
+        Iterator<Item> it = itens.iterator();
+        while(it.hasNext()){
+            String mensagem = it.next().serEncontrado(cacador);
+            if(mensagem != null){
+                mensagens.add(mensagem);
+                it.remove();
+            }
+        }
+        return mensagens;
     }
 }

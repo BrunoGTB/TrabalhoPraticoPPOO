@@ -7,6 +7,11 @@ public class Tesouro extends Item{
     }
 
     @Override 
+    public String serEncontrado(Cacador cacador){
+        return null;
+    }
+
+    @Override 
     public boolean ehTesouro(){
         return true;
     }

@@ -6,7 +6,7 @@ package project;
 public class PalavrasComando
 {
     private static final String[] comandosValidos = {
-        "ir", "sair", "ajuda", "olhar", "explodir"
+        "ir", "sair", "ajuda", "olhar", "explodir", "chave"
     };
 
     /**
