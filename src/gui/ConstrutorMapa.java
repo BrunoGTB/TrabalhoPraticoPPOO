@@ -25,7 +25,7 @@ public class ConstrutorMapa {
             String linha = arq.readLine();
             while (linha != null) {
                 if (!linha.isEmpty() && !linha.startsWith("#")) {
-                    String[] campos = linha.split(" ");
+                    String[] campos = linha.split(";");
                     processarLinha(campos);
                 }
                 linha = arq.readLine();
