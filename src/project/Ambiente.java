@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * Representa uma localização dentro da casa mal-assombrada do jogo.
- * Cada ambiente possui um nome, uma descrição e um mapeamento de portas que levam
- * a outros ambientes vizinhos.
+ * Cada ambiente possui um nome, uma descrição, um mapeamento de portas que levam
+ * a outros ambientes vizinhos e uma lista de itens escondidos no local.
  */
 public class Ambiente 
 {
@@ -81,10 +81,20 @@ public class Ambiente
         return "Você está " + descricao + " da casa mal-assombrada.\n" + getSaidasString() + "\n";
     }
 
+    /**
+     * Adiciona um item à lista de itens presentes neste ambiente.
+     *
+     * @param item item a ser colocado no ambiente.
+     */
     public void adicionarItem(Item item){
         itens.add(item);
     }
 
+    /**
+     * Verifica se o tesouro está escondido neste ambiente.
+     *
+     * @return true se algum dos itens do ambiente for o tesouro, false caso contrário.
+     */
     public boolean temTesouro(){
         for(Item item : itens){
             if(item.ehTesouro()) return true;
@@ -92,6 +102,13 @@ public class Ambiente
         return false;
     }
 
+    /**
+     * Entrega ao caçador os itens encontrados no ambiente, removendo-os do local
+     * conforme forem coletados.
+     *
+     * @param cacador jogador que está explorando o ambiente.
+     * @return Lista de mensagens descrevendo os itens encontrados.
+     */
     public List<String> entregarItens(Cacador cacador){
         List<String> mensagens = new ArrayList<String>();
         Iterator<Item> it = itens.iterator();
