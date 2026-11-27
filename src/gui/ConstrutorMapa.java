@@ -1,9 +1,7 @@
 package gui;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import project.ArquivoInvalidoException;
+import project.LeitorArquivo;
 
 /**
  * Monta o mapa da casa, adicionando paredes e letreiros a um Mapa.
@@ -20,48 +18,34 @@ public class ConstrutorMapa {
      * Linhas vazias, comentários (#) e linhas de outros tipos são ignoradas.
      * @param nomeArquivo nome do arquivo texto do mapa
      */
-    public void montarMapa(String nomeArquivo) {
-        try (BufferedReader arq = new BufferedReader(new FileReader(nomeArquivo))) {
-            String linha = arq.readLine();
-            while (linha != null) {
-                if (!linha.isEmpty() && !linha.startsWith("#")) {
-                    String[] campos = linha.split(";");
-                    processarLinha(campos);
-                }
-                linha = arq.readLine();
+    public void montarMapa(LeitorArquivo leitor) throws ArquivoInvalidoException{
+        for(String[] registro : leitor.getRegistros("PAREDE")){
+            LeitorArquivo.exigirCampos(registro, 3);
+            Posicao posicao = lerPosicao(registro, 1);
+            mapa.adicionarItem(new Parede(posicao));
+        }
+        for(String[] registro : leitor.getRegistros("LETREIRO")){
+            LeitorArquivo.exigirCampos(registro, 5);
+            String direcao = registro[1];
+            Posicao inicio = lerPosicao(registro, 2);
+            String texto = registro[4];
+            if(direcao.equals("H")){
+                escreverHorizontal(texto, inicio.getX(), inicio.getY());
+            }else if(direcao.equals("V")){
+                escreverVertical(texto, inicio.getX(), inicio.getY());
+            }else{
+                throw new ArquivoInvalidoException("Direção do letreiro deve ser H ou V: " + direcao);
             }
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("Impossível abrir o arquivo " + nomeArquivo);
-        }
-        catch (IOException e) {
-            System.out.println("Problema na leitura do arquivo " + nomeArquivo);
         }
     }
 
-    /**
-     * Interpreta uma linha do arquivo já separada em partes.
-     */
-    private void processarLinha(String[] partes) {
-        String tipo = partes[0];
-        if (tipo.equals("PAREDE")) {
-            int x = Integer.parseInt(partes[1]);
-            int y = Integer.parseInt(partes[2]);
-            mapa.adicionarItem(new Parede(new Posicao(x, y)));
-        } else if (tipo.equals("LETREIRO")) {
-            String direcao = partes[1];
-            int x = Integer.parseInt(partes[2]);
-            int y = Integer.parseInt(partes[3]);
-            String texto = partes[4];
-            if (direcao.equals("H")) {
-                escreverHorizontal(texto, x, y);
-            } else if (direcao.equals("V")) {
-                escreverVertical(texto, x, y);
-            } else {
-                throw new IllegalArgumentException("a direção do letreiro deve ser H ou V");
-            }
+    private Posicao lerPosicao(String[] registro, int indiceX) throws ArquivoInvalidoException{
+        int x = LeitorArquivo.converterInteiro(registro, indiceX);
+        int y = LeitorArquivo.converterInteiro(registro, indiceX + 1);
+        if(!mapa.estaDentro(new Posicao(x, y))){
+            throw new ArquivoInvalidoException("Posição fora do mapa: (" + x + ", " + y + ")");
         }
-        // Outros tipos (ex.: AMBIENTE) pertencem ao jogo e são ignorados aqui.
+        return new Posicao(x, y);
     }
 
     private void escreverHorizontal(String texto, int x, int y) {

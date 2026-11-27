@@ -19,11 +19,11 @@ public class Jogo
      * Inicializa uma nova partida, configurando o mapa, sorteando o estado inicial
      * das portas e definindo aleatoriamente o número de tentativas do caçador (entre 10 e 30).
      */
-    public Jogo() 
+    public Jogo(Casa casa) 
     {
         analisador = new Analisador();
         randomizer = new Random(); 
-        casa = new Casa();
+        this.casa = casa;
         casa.redefinirPortas(randomizer);
         casa.distribuirItens(randomizer);
 
