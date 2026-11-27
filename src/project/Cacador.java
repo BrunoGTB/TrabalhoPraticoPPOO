@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Representa o jogador, controlando sua localização atual
- * na casa e o número de tentativas restantes.
+ * na casa, o número de tentativas restantes e os itens coletados (chave mestra e dicas).
  */
 public class Cacador {
     private Ambiente ambienteAtual;
@@ -33,10 +33,20 @@ public class Cacador {
         return tentativas;
     }
 
+    /**
+     * Registra uma nova dica coletada pelo caçador.
+     *
+     * @param dica dica encontrada durante a exploração.
+     */
     public void adicionarDica(Dica dica){
         dicas.add(dica);
     }
 
+    /**
+     * Equipa o caçador com uma chave mestra encontrada no mapa.
+     *
+     * @param chave instância de ChaveMestra coletada.
+     */
     public void receberChave(ChaveMestra chave){
         this.chave = chave;
     }
@@ -45,18 +55,36 @@ public class Cacador {
         return Collections.unmodifiableList(dicas);
     }
 
+    /**
+     * Verifica se o caçador possui uma chave mestra e se ela ainda tem durabilidade.
+     *
+     * @return true se a chave puder ser utilizada, false caso contrário.
+     */
     public boolean podeUsarChave(){
         return chave != null && chave.podeSerUsada();
     }
 
+    /**
+     * Consome um ponto de durabilidade da chave mestra do caçador.
+     */
     public void usarChave(){
         chave.desgastar();
     }
 
+    /**
+     * Verifica se o caçador já encontrou a chave mestra.
+     *
+     * @return true se o jogador possuir uma chave, false caso contrário.
+     */
     public boolean temChave(){
         return chave != null;
     }
 
+    /**
+     * Retorna a durabilidade da chave mestra.
+     *
+     * @return A durabilidade da chave mestra, se não tiver chave retorna 0.
+     */
     public int getDurabilidadeChave(){
         if(!temChave()){
             return 0;
