@@ -108,12 +108,12 @@ public class Jogo
      */
     private void imprimirAjuda() 
     {
-        System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que");
-        System.out.println("você o encontre! Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
+        System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que você o encontre!");
+        System.out.println("Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
         System.out.println("Se achar que encontrou a sala que contém o tesouro, exploda o chão dela! Mas cuidado, você só tem uma carga!");
-        System.out.println("Você pode encontrar itens para auxiliar sua busca. Se encontrar uma chave mestra, pode usá-la digitando");
-        System.out.println("'chave Cozinha', por exemplo. Isso garante que nenhum fantasma vai emperrar a sua porta, e você não usará tentativas. Mas cuidado!");
-        System.out.println("A chave tem durabilidade, então a use com sabedoria. Você também pode encontrar dicas que vão te dizer onde o tesouro não está.");
+        System.out.println("Você pode encontrar itens para auxiliar sua busca. Se encontrar uma chave mestra, pode usá-la digitando 'chave Cozinha', por exemplo.");
+        System.out.println("Isso garante que nenhum fantasma vai emperrar a sua porta, e você não usará tentativas. Mas cuidado! A chave tem durabilidade, então a use com sabedoria.");
+        System.out.println("Você também pode encontrar dicas que vão te dizer onde o tesouro não está.");
         System.out.println("Você pode ver suas tentativas restantes, a durabilidade da sua chave e as dicas que já achou digitando 'informacoes'");
         System.out.println();
         System.out.println("Suas palavras de comando são:");
