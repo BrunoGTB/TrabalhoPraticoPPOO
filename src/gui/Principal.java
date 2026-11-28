@@ -3,7 +3,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import project.ArquivoInvalidoException;
+import project.Casa;
+import project.Jogo;
 import project.LeitorArquivo;
 /**
  *
@@ -14,27 +18,20 @@ public class Principal {
     public static void main(String[] args) {
         try{
             LeitorArquivo leitor = new LeitorArquivo("src/casa.txt");
-            Map<String, Posicao> referencias = lerPosicoesAmbientes(leitor);
+            Casa casa = new Casa(leitor);
             Mapa mapa = new Mapa();
             new ConstrutorMapa(mapa).montarMapa(leitor);
-            Jogador jogador = new Jogador(referencias.get("Sala de TV"));
-            JanelaSimulacao janela = new JanelaSimulacao(mapa);
-            Simulacao sim = new Simulacao(jogador, new BuscaAEstrela(mapa), janela);
-            
-            for(String origem: referencias.keySet()){
-                for(String destino: referencias.keySet()){
-                    if(!origem.equals(destino)){
-                        System.out.println("Origem: " + origem + "\tDestino: " + destino);
-                        System.out.println("Procurando o caminho ...");
-                        sim.executarSimulacao(referencias.get(origem),referencias.get(destino));
-                    }
-                }    
-            }
-            System.out.println("Simulação concluída.");
+            Map<String, Posicao> posicoes = lerPosicoesAmbientes(leitor);
+            Posicao inicio = posicoes.get(casa.getAmbienteInicial().getNome());
+
+            JanelaJogo janela = new JanelaJogo(mapa, posicoes, inicio);
+            Jogo jogo = new Jogo(casa, janela);
+            janela.conectar(jogo);
+            jogo.iniciar();
         }catch(IOException e){
-            System.out.println("Não foi possível ler o arquivo da casa: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Não foi possível ler o arquivo da casa:\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }catch(ArquivoInvalidoException e){
-            System.out.println("Arquivo da casa inválido: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Arquivo da casa inválido:\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
     }

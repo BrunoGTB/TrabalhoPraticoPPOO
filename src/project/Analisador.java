@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Analisador 
 {
     private PalavrasComando palavrasDeComando;
-    private Scanner entrada;
 
     /**
      * Inicializa o analisador com o dicionário de comandos válidos e o leitor de entrada padrão.
@@ -16,7 +15,6 @@ public class Analisador
     public Analisador() 
     {
         palavrasDeComando = new PalavrasComando();
-        entrada = new Scanner(System.in);
     }
 
     /**
@@ -25,30 +23,20 @@ public class Analisador
      *
      * @return Um objeto Comando contendo a ação identificada (ou null se inválida).
      */
-    public Comando pegarComando() 
-    {
-        String linha;
+    public Comando analisar(String linha){
         String palavra1 = null;
         String palavra2 = null;
-
-        System.out.print("> ");
-
-        linha = entrada.nextLine();
-
         Scanner tokenizer = new Scanner(linha);
-        if(tokenizer.hasNext()) {
+        if(tokenizer.hasNext()){
             palavra1 = tokenizer.next();
-            if(tokenizer.hasNext()) {
+            if(tokenizer.hasNext()){
                 palavra2 = tokenizer.nextLine().trim();
             }
         }
-
-        if(palavrasDeComando.ehComando(palavra1)) {
+        if(palavrasDeComando.ehComando(palavra1)){
             return new Comando(palavra1, palavra2);
         }
-        else {
-            return new Comando(null, palavra2); 
-        }
+        return new Comando(null, palavra2);
     }
 
     /**

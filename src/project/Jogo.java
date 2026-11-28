@@ -14,6 +14,8 @@ public class Jogo
     private Random randomizer;
     private Casa casa;
     private Cacador cacador;
+    private OuvinteJogo ouvinte;
+    private boolean terminado;
        
     /**
      * Inicializa uma nova partida a partir de uma casa já carregada, sorteia o estado inicial
@@ -22,44 +24,54 @@ public class Jogo
      *
      * @param casa estrutura do mapa contendo os ambientes e portas do jogo.
      */
-    public Jogo(Casa casa) 
+    public Jogo(Casa casa, OuvinteJogo ouvinte) 
     {
         analisador = new Analisador();
         randomizer = new Random(); 
         this.casa = casa;
+        this.ouvinte = ouvinte;
         casa.redefinirPortas(randomizer);
         casa.distribuirItens(randomizer);
+        int tentativas = randomizer.nextInt(21) + 10;
+        cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
+    }
 
+    public void iniciar(){
         GravadorGabarito gravador = new GravadorGabarito("gabarito.txt");
         try{
             gravador.gravar(casa.gerarGabarito());
         }catch(IOException e){
-            System.out.println("Não foi possível gravar o gabarito: " + e.getMessage());
+            mensagem("Não foi possível gravar o gabarito: " + e.getMessage());
         }
-
-        int tentativas = randomizer.nextInt(21) + 10;
-        cacador = new Cacador(casa.getAmbienteInicial(), tentativas);
+        imprimirBoasVindas();
+        recolherItens(casa.getAmbienteInicial());
+        ouvinte.estadoAtualizado(cacador);
     }
 
     /**
      * Inicia e mantém o loop principal do jogo até que o jogador decida sair,
      * tente explodir o chão em busca do tesouro ou esgote suas tentativas disponíveis.
      */
-    public void jogar() 
-    {            
-        imprimirBoasVindas();
-        recolherItens(casa.getAmbienteInicial());
-                
-        boolean terminado = false;
-        while (!terminado && cacador.temTentativas()) {
-            Comando comando = analisador.pegarComando();
-            terminado = processarComando(comando);
-        }
+    public void executarComando(String linha) {            
+        if(terminado) return;
+        
+        mensagem("> " + linha);
+        boolean encerrar = processarComando(analisador.analisar(linha));
+        ouvinte.estadoAtualizado(cacador);
 
-        if(!cacador.temTentativas()){
-            System.out.println("Suas tentativas acabaram!");
+        if(!encerrar && !cacador.temTentativas()){
+            mensagem("Suas tentativas acabaram! Você perdeu.");
+            encerrar = true;
         }
-        System.out.println("Obrigado por jogar. Ate mais!");
+        if(encerrar){
+            terminado = true;
+            mensagem("Obrigado por jogar. Até mais!");
+            ouvinte.jogoEncerrado();
+        }
+    }
+
+    private void mensagem(String texto){
+        ouvinte.exibirMensagem(texto);
     }
 
     /**
@@ -67,13 +79,11 @@ public class Jogo
      */
     private void imprimirBoasVindas()
     {
-        System.out.println();
-        System.out.print("Bem-vindo ao World of Zuul! ");
-        System.out.println("Esse é um jogo de aventura em que você tem que achar o tesouro enterrado nesta casa mal-assombrada.");
-        System.out.println("Digite 'ajuda' se voce precisar de ajuda.");
+        mensagem("");
+        mensagem("Bem-vindo ao World of Zuul! Esse é um jogo de aventura em que você tem que achar o tesouro enterrado nesta casa mal-assombrada.");
+        mensagem("Digite 'ajuda' se voce precisar de ajuda.");
         imprimirTentativas();
-        System.out.println();
-
+        mensagem("");
         imprimirLocalizacao();
     }
 
@@ -88,7 +98,7 @@ public class Jogo
         boolean querSair = false;
 
         if(comando.ehDesconhecido()) {
-            System.out.println("Eu nao entendi o que voce disse...");
+            mensagem("Eu nao entendi o que voce disse...");
             return false;
         }
 
@@ -120,16 +130,16 @@ public class Jogo
      */
     private void imprimirAjuda() 
     {
-        System.out.println("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que você o encontre!");
-        System.out.println("Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
-        System.out.println("Se achar que encontrou a sala que contém o tesouro, exploda o chão dela! Mas cuidado, você só tem uma carga!");
-        System.out.println("Você pode encontrar itens para auxiliar sua busca. Se encontrar uma chave mestra, pode usá-la digitando 'chave Cozinha', por exemplo.");
-        System.out.println("Isso garante que nenhum fantasma vai emperrar a sua porta, e você não usará tentativas. Mas cuidado! A chave tem durabilidade, então a use com sabedoria.");
-        System.out.println("Você também pode encontrar dicas que vão te dizer onde o tesouro não está.");
-        System.out.println("Você pode ver suas tentativas restantes, a durabilidade da sua chave e as dicas que já achou digitando 'informacoes'");
-        System.out.println();
-        System.out.println("Suas palavras de comando são:");
-        System.out.println(analisador.mostrarComandos());
+        mensagem("Você entrou nessa casa para procurar o tesouro enterrado, mas os fantasmas presentes não querem que você o encontre!");
+        mensagem("Eles irão emperrar as portas de tempos em tempos, e você tem tentativas limitadas para encontrar o tesouro!");
+        mensagem("Se achar que encontrou a sala que contém o tesouro, exploda o chão dela! Mas cuidado, você só tem uma carga!");
+        mensagem("Você pode encontrar itens para auxiliar sua busca. Se encontrar uma chave mestra, pode usá-la digitando 'chave Cozinha', por exemplo.");
+        mensagem("Isso garante que nenhum fantasma vai emperrar a sua porta, e você não usará tentativas. Mas cuidado! A chave tem durabilidade, então a use com sabedoria.");
+        mensagem("Você também pode encontrar dicas que vão te dizer onde o tesouro não está.");
+        mensagem("Você pode ver suas tentativas restantes, a durabilidade da sua chave e as dicas que já achou digitando 'informacoes'");
+        mensagem("");
+        mensagem("Suas palavras de comando são:");
+        mensagem(analisador.mostrarComandos());
     }
 
     /**
@@ -145,7 +155,7 @@ public class Jogo
      * Mostra no console a quantidade de tentativas que o caçador ainda possui.
      */
     private void imprimirTentativas(){
-        System.out.println("Você tem " + cacador.getTentativas() + " tentativas restantes.");
+        mensagem("Você tem " + cacador.getTentativas() + " tentativas restantes.");
     }
 
     /**
@@ -154,12 +164,12 @@ public class Jogo
     private void imprimirDicas(){
         List<Dica> dicas = cacador.getDicas();
         if(dicas.isEmpty()){
-            System.out.println("Você ainda não encontrou nenhuma dica.");
+            mensagem("Você ainda não encontrou nenhuma dica.");
             return;
         }
-        System.out.println("Suas dicas encontradas são: ");
+        mensagem("Suas dicas encontradas são: ");
         for(Dica dica : dicas){
-            System.out.println("- " + dica.getTexto());
+            mensagem("- " + dica.getTexto());
         }
     }
 
@@ -168,9 +178,9 @@ public class Jogo
      */
     private void imprimirDurabilidade(){
         if(!cacador.temChave()){
-            System.out.println("Você ainda não encontrou a chave!");
+            mensagem("Você ainda não encontrou a chave!");
         }else{
-            System.out.println("Usos restantes da chave mestra: " + cacador.getDurabilidadeChave());
+            mensagem("Usos restantes da chave mestra: " + cacador.getDurabilidadeChave());
         }
     }
 
@@ -183,7 +193,7 @@ public class Jogo
     private void irParaAmbiente(Comando comando) 
     {
         if(!comando.temSegundaPalavra()) {
-            System.out.println("Ir pra onde?");
+            mensagem("Ir pra onde?");
             return;
         }
 
@@ -191,12 +201,12 @@ public class Jogo
         Porta porta = atual.getPorta(comando.getSegundaPalavra());
 
         if(porta == null){
-            System.out.println("Não há passagem!");
+            mensagem("Não há passagem!");
             return;
         }
         cacador.gastarTentativa();
         if(porta.estaEmperrada()){
-            System.out.println("A porta está emperrada!");
+            mensagem("A porta está emperrada!");
         }else{
             entrarEm(porta.getOutroLado(atual));
         }
@@ -209,7 +219,9 @@ public class Jogo
      * @param destino ambiente em que o caçador está entrando.
      */
     private void entrarEm(Ambiente destino){
+        Ambiente origem = cacador.getAmbienteAtual();
         cacador.moverPara(destino);
+        ouvinte.cacadorMoveu(origem, destino);
         imprimirLocalizacao();
         recolherItens(destino);
     }
@@ -221,7 +233,7 @@ public class Jogo
      */
     private void recolherItens(Ambiente atual){
         for(String mensagem : atual.entregarItens(cacador)){
-            System.out.println(mensagem);
+            mensagem(mensagem);
         }
     }
 
@@ -233,19 +245,19 @@ public class Jogo
      */
     private void usarChave(Comando comando){
         if(!cacador.podeUsarChave()){
-            System.out.println("Você não tem uma chave mestra utilizável.");
+            mensagem("Você não tem uma chave mestra utilizável.");
             return;
         }
 
         if(!comando.temSegundaPalavra()){
-            System.out.println("Usar a chave em qual porta?");
+            mensagem("Usar a chave em qual porta?");
             return;
         }
 
         Ambiente atual = cacador.getAmbienteAtual();
         Porta porta = atual.getPorta(comando.getSegundaPalavra());
         if(porta == null){
-            System.out.println("Não há passagem!");
+            mensagem("Não há passagem!");
             return;
         }
         cacador.usarChave();
@@ -257,7 +269,7 @@ public class Jogo
      * Exibe a descrição e as saídas do ambiente em que o caçador está.
      */
     private void imprimirLocalizacao(){
-        System.out.println(cacador.getAmbienteAtual().getDescricaoLonga());
+        mensagem(cacador.getAmbienteAtual().getDescricaoLonga());
     }
 
     /**
@@ -273,11 +285,11 @@ public class Jogo
      */
     private void explodir(){
         Ambiente atual = cacador.getAmbienteAtual();
-        System.out.println("BOOM! Você explodiu o chão " + atual.getDescricao() + "...");
+        mensagem("BOOM! Você explodiu o chão " + atual.getDescricao() + "...");
         if(atual.temTesouro()){
-            System.out.println("Você encontrou o tesouro! Você venceu!");
+            mensagem("Você encontrou o tesouro! Você venceu!");
         }else{
-            System.out.println("Não havia nada aqui, e sua carga acabou. Você perdeu!");
+            mensagem("Não havia nada aqui, e sua carga acabou. Você perdeu!");
         }
     }
 
@@ -290,7 +302,7 @@ public class Jogo
     private boolean sair(Comando comando) 
     {
         if(comando.temSegundaPalavra()) {
-            System.out.println("Sair o que?");
+            mensagem("Sair o que?");
             return false;
         }
         else {
